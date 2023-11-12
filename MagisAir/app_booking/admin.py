@@ -14,16 +14,16 @@ class ItemAdmin(admin.ModelAdmin):
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('booking_id', 'total_cost')
-    search_fields = ('booking_id', 'total_cost')
-
+    list_display = ('booking_id', 'passenger_id', 'total_cost')
+    search_fields = ('booking_id', 'passenger_id', 'total_cost')
+    readonly_fields = ('total_cost',)
 
 @admin.register(BookingItem)
 class BookingItemAdmin(admin.ModelAdmin):
     list_display = ('booking_item_id', 'booking_id', 'item_id', 'item_quantity', 'booking_item_cost')
     list_filter = ('booking_id', 'item_id')
-    search_fields = ('booking_id__booking_id', 'item_id__item_name')  # assuming Booking and Item models have these attributes
-    readonly_fields = ('booking_item_cost',)  # Make booking_item_cost read-only in the admin panel
+    search_fields = ('booking_id__booking_id', 'item_id__item_name') 
+    readonly_fields = ('booking_item_cost',) 
 
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):

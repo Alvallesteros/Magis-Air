@@ -1,7 +1,11 @@
-import re
-from django.core.exceptions import ValidationError
 from django.db import models
 from app_schedule.models import ScheduledFlight
+
+import re
+from django.core.exceptions import ValidationError
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 # Create your models here.
 class Passenger(models.Model):
@@ -32,15 +36,22 @@ class Item(models.Model):
 class Booking(models.Model):
     booking_id = models.AutoField(primary_key=True)
     passenger_id = models.ForeignKey(Passenger, on_delete=models.CASCADE)
-    total_cost = models.DecimalField(max_digits=10, decimal_places=2, null=False)
+    total_cost = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
+
+    def save(self, *args, **kwargs):
+        if self.pk:
+            booking_item_costs = self.booking_items.aggregate(models.Sum('booking_item_cost'))['booking_item_cost__sum'] or 0
+            ticket_costs = self.ticket_set.aggregate(models.Sum('ticket_cost'))['ticket_cost__sum'] or 0
+            self.total_cost = booking_item_costs + ticket_costs
+        super(Booking, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"Booking {self.booking_id}"
+        return f"Booking {self.booking_id} | {self.passenger_id.last_name}, {self.passenger_id.first_name}"
 
 
 class BookingItem(models.Model):
     booking_item_id = models.AutoField(primary_key=True)
-    booking_id = models.ForeignKey(Booking, on_delete=models.CASCADE)
+    booking_id = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='booking_items')
     item_id = models.ForeignKey(Item, on_delete=models.CASCADE)
     item_quantity = models.IntegerField(null=False)
     booking_item_cost = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=True)
@@ -86,3 +97,9 @@ class Ticket(models.Model):
         return f"Ticket {self.ticket_id}: {self.booking_id} | {self.scheduled_flight_id}"
 
 
+###SIGNAL FUNCTIONS###
+@receiver(post_save, sender=BookingItem)
+@receiver(post_save, sender=Ticket)
+def updateBookingCost(sender, instance, **kwargs):
+    booking = instance.booking_id
+    booking.save()
