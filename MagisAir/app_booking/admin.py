@@ -14,9 +14,9 @@ class ItemAdmin(admin.ModelAdmin):
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('booking_id', 'passenger_id', 'total_cost')
+    list_display = ('booking_id', 'passenger_id', 'booking_date', 'booking_time', 'total_cost')
     search_fields = ('booking_id', 'passenger_id', 'total_cost')
-    readonly_fields = ('total_cost',)
+    readonly_fields = ('total_cost', 'booking_date', 'booking_time')
 
 @admin.register(BookingItem)
 class BookingItemAdmin(admin.ModelAdmin):
