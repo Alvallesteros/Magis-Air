@@ -24,4 +24,4 @@ class BaseFlight(models.Model):
     route = models.ForeignKey(Route, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.flight_type_choices} Flight {self.flight_code}: {self.route.origin} to {self.route.destination}"
+        return f"{self.flight_type} Flight {self.flight_code}: {self.route.origin} to {self.route.destination}"

@@ -1,4 +1,4 @@
-Magis-env/
-MagisAir/db.sqlite3
+# .gitignore file
 
-alva001
+Magis-env/
+db.sqlite3
