@@ -7,3 +7,4 @@ class ScheduledFlightAdmin(admin.ModelAdmin):
     list_display = ('scheduled_flight_id', 'departure_date', 'departure_time', 'arrival_date', 'arrival_time', 'duration', 'flight_cost', 'base_flight')
     list_filter = ('departure_date', 'arrival_date', 'base_flight')
     search_fields = ('scheduled_flight_id', 'base_flight')
+    readonly_fields = ('arrival_date', 'arrival_time',) #Read-only Fields
