@@ -25,3 +25,10 @@ class Item(models.Model):
 
     def __str__(self):
         return f"{self.item_id}: {self.item_name}"
+
+class Booking(models.Model):
+    booking_id = models.AutoField(primary_key=True)
+    total_cost = models.DecimalField(max_digits=10, decimal_places=2, null=False)
+
+    def __str__(self):
+        return f"Booking {self.booking_id}"

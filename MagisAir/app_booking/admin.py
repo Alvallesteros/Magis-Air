@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Passenger, Item
+from .models import Passenger, Item, Booking
 
 # Register your models here.
 @admin.register(Passenger)
@@ -11,3 +11,8 @@ class PassengerAdmin(admin.ModelAdmin):
 class ItemAdmin(admin.ModelAdmin):
     list_display = ('item_id', 'item_name', 'description', 'item_cost')
     search_fields = ('item_name', 'description')
+
+@admin.register(Booking)
+class BookingAdmin(admin.ModelAdmin):
+    list_display = ('booking_id', 'total_cost')
+    search_fields = ('booking_id', 'total_cost')
