@@ -15,7 +15,7 @@ class Route(models.Model):
 
 #BaseFlight Entity
 class BaseFlight(models.Model):
-    flight_code = models.CharField(max_length=6, unique=True, null=False, help_text='Must be a MA and Four Digits (e.g. MA0001, MA2031, MA9099)') #Manually Create a new Flight ID
+    flight_code = models.CharField(max_length=6, unique=True, null=False, blank=True)
     flight_type_choices = [
         ('Connecting', 'Connecting'),
         ('Direct', 'Direct'),
@@ -25,9 +25,12 @@ class BaseFlight(models.Model):
 
     route = models.ForeignKey(Route, on_delete=models.CASCADE)
 
-    def clean(self):
-        if not re.match(r'^MA\d{4}$', self.flight_code):
-            raise ValidationError('Flight Code Invalid; Must be a MA + Four Digits')
+    def save(self, *args, **kwargs):
+        if not self.flight_code:
+            max_flight_code = BaseFlight.objects.all().order_by('flight_code').last()
+            max_flight_num = int(max_flight_code.flight_code[2:]) if max_flight_code else 0
+            self.flight_code = f"MA{max_flight_num + 1:04d}"
+        super(BaseFlight, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.flight_type} Flight {self.flight_code}: {self.route.origin} to {self.route.destination}"

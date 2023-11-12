@@ -12,3 +12,4 @@ class RouteAdmin(admin.ModelAdmin):
 class BaseFlightAdmin(admin.ModelAdmin):
     list_display = ['flight_code', 'flight_type', 'route']
     search_fields = ['flight_code', 'flight_type']
+    readonly_fields = ['flight_code',]
