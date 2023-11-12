@@ -28,7 +28,26 @@ class Item(models.Model):
 
 class Booking(models.Model):
     booking_id = models.AutoField(primary_key=True)
+    passenger_id = models.ForeignKey(Passenger, on_delete=models.CASCADE)
     total_cost = models.DecimalField(max_digits=10, decimal_places=2, null=False)
 
     def __str__(self):
         return f"Booking {self.booking_id}"
+
+
+class BookingItem(models.Model):
+    booking_item_id = models.AutoField(primary_key=True)
+    booking_id = models.ForeignKey(Booking, on_delete=models.CASCADE)
+    item_id = models.ForeignKey(Item, on_delete=models.CASCADE)
+    item_quantity = models.IntegerField(null=False)
+    booking_item_cost = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=True)
+
+    def save(self, *args, **kwargs):
+        
+        if self.item_quantity and self.item_id:
+            self.booking_item_cost = self.item_quantity * self.item_id.item_cost
+
+        super(BookingItem, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.item_id} | {self.booking_id}"

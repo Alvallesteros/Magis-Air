@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Passenger, Item, Booking
+from .models import Passenger, Item, Booking, BookingItem
 
 # Register your models here.
 @admin.register(Passenger)
@@ -16,3 +16,11 @@ class ItemAdmin(admin.ModelAdmin):
 class BookingAdmin(admin.ModelAdmin):
     list_display = ('booking_id', 'total_cost')
     search_fields = ('booking_id', 'total_cost')
+
+
+@admin.register(BookingItem)
+class BookingItemAdmin(admin.ModelAdmin):
+    list_display = ('booking_item_id', 'booking_id', 'item_id', 'item_quantity', 'booking_item_cost')
+    list_filter = ('booking_id', 'item_id')
+    search_fields = ('booking_id__booking_id', 'item_id__item_name')  # assuming Booking and Item models have these attributes
+    readonly_fields = ('booking_item_cost',)  # Make booking_item_cost read-only in the admin panel
