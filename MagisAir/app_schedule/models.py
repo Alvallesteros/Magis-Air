@@ -33,4 +33,4 @@ class ScheduledFlight(models.Model):
         super(ScheduledFlight, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"Scheduled Flight {self.scheduled_flight_id}: Flight {self.base_flight} Departing at {self.departure_date}, {self.departure_time}"
+        return f"Scheduled Flight {self.scheduled_flight_id}: Flight {self.base_flight.flight_code} Departing at {self.departure_date}, {self.departure_time}"
