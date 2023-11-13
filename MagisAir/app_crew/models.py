@@ -15,8 +15,8 @@ class CrewMember(models.Model):
 
 class CrewAssignment(models.Model):
     crew_id = models.AutoField(primary_key=True)
-    scheduled_flight_id = models.ForeignKey(ScheduledFlight, on_delete=models.CASCADE)
-    crew_member_id = models.ForeignKey(CrewMember, on_delete=models.CASCADE)
+    scheduled_flight_id = models.ForeignKey(ScheduledFlight, on_delete=models.CASCADE) #TODO REMOVE "_id"
+    crew_member_id = models.ForeignKey(CrewMember, on_delete=models.CASCADE) #TODO REMOVE "_id"
 
     # Attribute: Role
     ROLE_CHOICES = [
