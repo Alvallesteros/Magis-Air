@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-=======
-Certainly! Here's a simple README file in markdown format:
-
-```markdown
->>>>>>> b1fe1cc89ed2d5e870c4979c42d356d9d895dbf9
 # Django Project Setup Guide
 
 This guide will help you set up a Django project, migrate the database, populate it with data using `genData.py`, create a superuser, run the development server, and access the Django admin interface.
@@ -82,9 +76,4 @@ This guide will help you set up a Django project, migrate the database, populate
    - Open a web browser and go to http://127.0.0.1:8000/admin/
    - Log in using the superuser credentials created in step 7.
 
-<<<<<<< HEAD
 You are now set up and ready to work on your Django project!
-=======
-You are now set up and ready to work on your Django project!
-```
->>>>>>> b1fe1cc89ed2d5e870c4979c42d356d9d895dbf9
