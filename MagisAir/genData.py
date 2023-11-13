@@ -12,7 +12,7 @@ django.setup()
 from app_routes.models import Route, BaseFlight
 from app_schedule.models import ScheduledFlight
 from app_crew.models import CrewMember, CrewAssignment
-from app_booking.models import Passenger, Item
+from app_booking.models import Passenger, Item, Booking
 
 # Generate sample data using Faker
 fake = Faker()
@@ -60,8 +60,8 @@ def generate_crew_assignment(num_crew_assignment):
     scheduled_flight_ids = list(ScheduledFlight.objects.values_list('scheduled_flight_id', flat=True))
     for _ in range(num_crew_assignment):
         crew_assignment = CrewAssignment(
-            scheduled_flight_id_id = random.choice(scheduled_flight_ids),
-            crew_member_id_id = random.choice(crew_member_ids),
+            scheduled_flight_id_id = random.choice(scheduled_flight_ids), #TODO REMOVE _id
+            crew_member_id_id = random.choice(crew_member_ids), #TODO REMOVE _id
             role = random.choice(['Pilot', 'First Officer', 'Flight Attendant', 'Other'])
         )
         crew_assignment.save()
@@ -86,6 +86,16 @@ def generate_item(num_item):
         )
         item.save()
 
+def generate_booking(num_booking):
+    passengers_id = list(Passenger.objects.values_list('passenger_id', flat=True))
+    for _ in range(num_booking):
+        booking = Booking(
+            passenger_id_id = random.choice(passengers_id), #TODO REMOVE _id
+            booking_date=fake.date_between(start_date='-90d', end_date='-10d'),
+            booking_time=datetime.strptime(fake.time(), '%H:%M:%S').time(),
+        )
+        booking.save()
+
 if __name__ == "__main__":
     #Adjust as you want
     num_routes = 10
@@ -95,12 +105,17 @@ if __name__ == "__main__":
     num_crew_assignment = 50
     num_passenger = 60
     num_item = 70
+    num_booking = 100
 
     #Uncomment the following and run the script to generate data
-    #generate_routes(num_routes)
-    #generate_base_flights(num_base_flights)
-    #generate_scheduled_flights(num_scheduled_flights)
-    #generate_crew_member(num_crew_member)
-    #generate_crew_assignment(num_crew_assignment)
-    #generate_passenger(num_passenger)
+
+    """    
+    generate_routes(num_routes)
+    generate_base_flights(num_base_flights)
+    generate_scheduled_flights(num_scheduled_flights)
+    generate_crew_member(num_crew_member)
+    generate_crew_assignment(num_crew_assignment)
+    generate_passenger(num_passenger)
     generate_item(num_item)
+    generate_booking(num_booking)
+    """

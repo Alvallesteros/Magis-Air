@@ -35,7 +35,7 @@ class Item(models.Model):
 
 class Booking(models.Model):
     booking_id = models.AutoField(primary_key=True)
-    passenger_id = models.ForeignKey(Passenger, on_delete=models.CASCADE)
+    passenger_id = models.ForeignKey(Passenger, on_delete=models.CASCADE) #TODO REMOVE ID
     booking_date = models.DateField(auto_now_add=True)
     booking_time = models.TimeField(auto_now_add=True)
     total_cost = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
