@@ -4,13 +4,21 @@
 
 {% block content %}
   <h2>Schedule Flights</h2>
-  <ul>
+  <table>
+    <thead>
+      {% for name in column_names %}
+        <td>{{ name }}</td>
+      {% endfor %}
+    </thead>
     {% for instance in flights %}
-        <li>
-            {% for value in instance %}
-                {{ value }}
-            {% endfor %}
-        </li>
+      <tr>
+          <td>{{ instance.flight_code }}</td>
+          <td>{{ instance.origin }}</td>
+          <td>{{ instance.destination }}</td>
+          <td>{{ instance.departure|time:"H:i" }}</td>
+          <td>{{ instance.arrival|time:"H:i" }}</td>
+          <td>{{ instance.duration }} </td>
+      </tr>
     {% endfor %}
-  </ul>
+  </table>
 {% endblock %}
