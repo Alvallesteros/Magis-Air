@@ -12,6 +12,7 @@ django.setup()
 from app_routes.models import Route, BaseFlight
 from app_schedule.models import ScheduledFlight
 from app_crew.models import CrewMember, CrewAssignment
+from app_booking.models import Passenger
 
 # Generate sample data using Faker
 fake = Faker()
@@ -65,15 +66,28 @@ def generate_crew_assignment(num_crew_assignment):
         )
         crew_assignment.save()
 
+def generate_passenger(num_passenger):
+    for _ in range(num_passenger):
+        passenger = Passenger(
+            last_name = fake.last_name(),
+            first_name = fake.first_name(),
+            middle_initial = fake.random_uppercase_letter(),
+            birthday = fake.date_of_birth(),
+            gender = random.choice(['M', 'F', 'O'])
+        )
+        passenger.save()
+
 if __name__ == "__main__":
     num_routes = 10
     num_base_flights = 20
     num_scheduled_flights = 30
     num_crew_member = 40
     num_crew_assignment = 50
+    num_passenger = 60
 
     #generate_routes(num_routes)
     #generate_base_flights(num_base_flights)
     #generate_scheduled_flights(num_scheduled_flights)
     #generate_crew_member(num_crew_member)
     #generate_crew_assignment(num_crew_assignment)
+    generate_passenger(num_passenger)
