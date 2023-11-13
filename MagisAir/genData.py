@@ -11,6 +11,7 @@ django.setup()
 
 from app_routes.models import Route, BaseFlight
 from app_schedule.models import ScheduledFlight
+from app_crew.models import CrewMember
 
 # Generate sample data using Faker
 fake = Faker()
@@ -23,7 +24,7 @@ def generate_routes(num_routes):
         )
         route.save()
 
-def generate_base_flights(num_base_flights, num_routes):
+def generate_base_flights(num_base_flights):
     route_ids = list(Route.objects.values_list('route_id', flat=True))
     for _ in range(num_base_flights):
         base_flight = BaseFlight(
@@ -32,7 +33,7 @@ def generate_base_flights(num_base_flights, num_routes):
         )
         base_flight.save()
 
-def generate_scheduled_flights(num_scheduled_flights, num_base_flights):
+def generate_scheduled_flights(num_scheduled_flights):
     base_flight_ids = list(BaseFlight.objects.values_list('id', flat=True))
     for _ in range(num_scheduled_flights):
         scheduled_flight = ScheduledFlight(
@@ -44,11 +45,23 @@ def generate_scheduled_flights(num_scheduled_flights, num_base_flights):
         )
         scheduled_flight.save()
 
+def generate_crew_member(num_crew_member):
+    for _ in range(num_crew_member):
+        crew_member = CrewMember(
+            last_name = fake.last_name(),
+            first_name = fake.first_name(),
+            middle_initial = fake.random_uppercase_letter()
+        )
+        crew_member.save()
+
+
 if __name__ == "__main__":
     num_routes = 10
     num_base_flights = 20
     num_scheduled_flights = 30
+    num_crew_member = 40
 
     #generate_routes(num_routes)
-    #generate_base_flights(num_base_flights, num_routes)
-    #generate_scheduled_flights(num_scheduled_flights, num_base_flights)
+    #generate_base_flights(num_base_flights)
+    #generate_scheduled_flights(num_scheduled_flights)
+    #generate_crew_member(num_crew_member)
