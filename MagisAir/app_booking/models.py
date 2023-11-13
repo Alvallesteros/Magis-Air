@@ -53,8 +53,8 @@ class Booking(models.Model):
 
 class BookingItem(models.Model):
     booking_item_id = models.AutoField(primary_key=True)
-    booking_id = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='booking_items')
-    item_id = models.ForeignKey(Item, on_delete=models.CASCADE)
+    booking_id = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='booking_items') #TODO REMOVE _id
+    item_id = models.ForeignKey(Item, on_delete=models.CASCADE) #TODO REMOVE _id
     item_quantity = models.IntegerField(null=False)
     booking_item_cost = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=True)
 

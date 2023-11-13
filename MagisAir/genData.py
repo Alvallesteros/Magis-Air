@@ -12,7 +12,7 @@ django.setup()
 from app_routes.models import Route, BaseFlight
 from app_schedule.models import ScheduledFlight
 from app_crew.models import CrewMember, CrewAssignment
-from app_booking.models import Passenger, Item, Booking, Ticket
+from app_booking.models import Passenger, Item, Booking, Ticket, BookingItem
 
 # Generate sample data using Faker
 fake = Faker()
@@ -108,6 +108,17 @@ def generate_ticket(num_ticket):
         )
         ticket.save()
 
+def generate_booking_item(num_bookingitem):
+    booking_ids = list(Booking.objects.values_list('booking_id', flat=True))
+    item_ids = list(Item.objects.values_list('item_id', flat=True))
+    for _ in range(num_bookingitem):
+        booking_item = BookingItem(
+            booking_id_id = random.choice(booking_ids), #TODO REMOVE _id
+            item_id_id = random.choice(item_ids), #TODO REMOVE _id
+            item_quantity = random.randint(1,8)
+        )
+        booking_item.save()
+
 if __name__ == "__main__":
     #Adjust as you want
     num_routes = 10
@@ -119,6 +130,7 @@ if __name__ == "__main__":
     num_item = 70
     num_booking = 100
     num_ticket = 150
+    num_bookingitem = 200
 
     #Uncomment the following and run the script to generate data
 
@@ -131,5 +143,6 @@ if __name__ == "__main__":
     generate_passenger(num_passenger)
     generate_item(num_item)
     generate_booking(num_booking)
-    """
     generate_ticket(num_ticket)
+    generate_booking_item(num_bookingitem)
+    """
