@@ -60,8 +60,8 @@ def generate_crew_assignment(num_crew_assignment):
     scheduled_flight_ids = list(ScheduledFlight.objects.values_list('scheduled_flight_id', flat=True))
     for _ in range(num_crew_assignment):
         crew_assignment = CrewAssignment(
-            scheduled_flight_id_id = random.choice(scheduled_flight_ids), #TODO REMOVE _id
-            crew_member_id_id = random.choice(crew_member_ids), #TODO REMOVE _id
+            scheduled_flight_id = random.choice(scheduled_flight_ids),
+            crew_member_id = random.choice(crew_member_ids),
             role = random.choice(['Pilot', 'First Officer', 'Flight Attendant', 'Other'])
         )
         crew_assignment.save()
@@ -90,7 +90,7 @@ def generate_booking(num_booking):
     passengers_id = list(Passenger.objects.values_list('passenger_id', flat=True))
     for _ in range(num_booking):
         booking = Booking(
-            passenger_id_id = random.choice(passengers_id), #TODO REMOVE _id
+            passenger_id = random.choice(passengers_id),
             booking_date=fake.date_between(start_date='-90d', end_date='-10d'),
             booking_time=datetime.strptime(fake.time(), '%H:%M:%S').time(),
         )
@@ -101,9 +101,9 @@ def generate_ticket(num_ticket):
     schedule_flight_ids = list(ScheduledFlight.objects.values_list('scheduled_flight_id', flat=True))
     for _ in range(num_ticket):
         ticket = Ticket(
-            booking_id_id = random.choice(booking_ids), #TODO REMOVE _id
-            scheduled_flight_id_id = random.choice(schedule_flight_ids), #TODO REMOVE _id
-            seat_class = random.choice(['1st Class', 'Business Class', 'Premium Economy Class', 'Regular Economy']), #TODO "CLASS"
+            booking_id = random.choice(booking_ids),
+            scheduled_flight_id = random.choice(schedule_flight_ids), 
+            seat_class = random.choice(['1st Class', 'Business Class', 'Premium Economy Class', 'Regular Economy Class']), #TODO "CLASS"
             seat_number = f"{fake.random_uppercase_letter()}{random.randint(0,9)}{random.randint(0,9)}"
         )
         ticket.save()
@@ -113,8 +113,8 @@ def generate_booking_item(num_bookingitem):
     item_ids = list(Item.objects.values_list('item_id', flat=True))
     for _ in range(num_bookingitem):
         booking_item = BookingItem(
-            booking_id_id = random.choice(booking_ids), #TODO REMOVE _id
-            item_id_id = random.choice(item_ids), #TODO REMOVE _id
+            booking_id = random.choice(booking_ids),
+            item_id = random.choice(item_ids),
             item_quantity = random.randint(1,8)
         )
         booking_item.save()
@@ -132,9 +132,7 @@ if __name__ == "__main__":
     num_ticket = 150
     num_bookingitem = 200
 
-    #Uncomment the following and run the script to generate data
-
-    """    
+    #Uncomment the following and run the script to generate data      
     generate_routes(num_routes)
     generate_base_flights(num_base_flights)
     generate_scheduled_flights(num_scheduled_flights)
@@ -145,4 +143,4 @@ if __name__ == "__main__":
     generate_booking(num_booking)
     generate_ticket(num_ticket)
     generate_booking_item(num_bookingitem)
-    """
+    

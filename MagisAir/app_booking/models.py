@@ -35,7 +35,7 @@ class Item(models.Model):
 
 class Booking(models.Model):
     booking_id = models.AutoField(primary_key=True)
-    passenger_id = models.ForeignKey(Passenger, on_delete=models.CASCADE) #TODO REMOVE ID
+    passenger = models.ForeignKey(Passenger, on_delete=models.CASCADE)
     booking_date = models.DateField(auto_now_add=True)
     booking_time = models.TimeField(auto_now_add=True)
     total_cost = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
@@ -48,30 +48,30 @@ class Booking(models.Model):
         super(Booking, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"Booking {self.booking_id} | {self.passenger_id.last_name}, {self.passenger_id.first_name}"
+        return f"Booking {self.booking_id} | {self.passenger.last_name}, {self.passenger.first_name}"
 
 
 class BookingItem(models.Model):
     booking_item_id = models.AutoField(primary_key=True)
-    booking_id = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='booking_items') #TODO REMOVE _id
-    item_id = models.ForeignKey(Item, on_delete=models.CASCADE) #TODO REMOVE _id
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='booking_items')
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
     item_quantity = models.IntegerField(null=False)
     booking_item_cost = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=True)
 
     def save(self, *args, **kwargs):
         
-        if self.item_quantity and self.item_id:
-            self.booking_item_cost = self.item_quantity * self.item_id.item_cost
+        if self.item_quantity and self.item:
+            self.booking_item_cost = self.item_quantity * self.item.item_cost
 
         super(BookingItem, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.item_id} | {self.booking_id}"
+        return f"{self.item} | {self.booking}"
 
 class Ticket(models.Model):
     ticket_id = models.AutoField(primary_key=True)
-    booking_id = models.ForeignKey(Booking, on_delete=models.CASCADE) #TODO REMOVE _id
-    scheduled_flight_id = models.ForeignKey(ScheduledFlight, on_delete=models.CASCADE) #TODO REMOVE _id
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
+    scheduled_flight = models.ForeignKey(ScheduledFlight, on_delete=models.CASCADE)
     SEAT_CLASS_CHOICES = [
         ('1st Class', '1st Class'),
         ('Business Class', 'Business Class'),
@@ -84,10 +84,10 @@ class Ticket(models.Model):
 
     def save(self, *args, **kwargs):
 
-        if self.scheduled_flight_id and self.seat_class:
-            seat_class_dict = {"1st Class": 5000, "Business Class": 2500, "Premium Economy Class": 1000, "Regular Economy": 0} #TODO ADD "CLASS"
+        if self.scheduled_flight and self.seat_class:
+            seat_class_dict = {"1st Class": 5000, "Business Class": 2500, "Premium Economy Class": 1000, "Regular Economy Class": 0} #TODO ADD "CLASS"
             seat_class_charge = seat_class_dict[self.seat_class]
-            self.ticket_cost = self.scheduled_flight_id.flight_cost + seat_class_charge
+            self.ticket_cost = self.scheduled_flight.flight_cost + seat_class_charge
 
         super(Ticket, self).save(*args, **kwargs)
 
@@ -96,12 +96,12 @@ class Ticket(models.Model):
             raise ValidationError('Seat Number Invalid; Must be a Letter + Two Digits')
 
     def __str__(self):
-        return f"Ticket {self.ticket_id}: {self.booking_id} | {self.scheduled_flight_id}"
+        return f"Ticket {self.ticket_id}: {self.booking} | {self.scheduled_flight}"
 
 
 ###SIGNAL FUNCTIONS###
 @receiver(post_save, sender=BookingItem)
 @receiver(post_save, sender=Ticket)
 def updateBookingCost(sender, instance, **kwargs):
-    booking = instance.booking_id
+    booking = instance.booking
     booking.save()
