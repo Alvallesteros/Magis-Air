@@ -35,7 +35,7 @@ class Item(models.Model):
 
 class Booking(models.Model):
     booking_id = models.AutoField(primary_key=True)
-    passenger_id = models.ForeignKey(Passenger, on_delete=models.CASCADE)
+    passenger_id = models.ForeignKey(Passenger, on_delete=models.CASCADE) #TODO REMOVE ID
     booking_date = models.DateField(auto_now_add=True)
     booking_time = models.TimeField(auto_now_add=True)
     total_cost = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
@@ -53,8 +53,8 @@ class Booking(models.Model):
 
 class BookingItem(models.Model):
     booking_item_id = models.AutoField(primary_key=True)
-    booking_id = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='booking_items')
-    item_id = models.ForeignKey(Item, on_delete=models.CASCADE)
+    booking_id = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='booking_items') #TODO REMOVE _id
+    item_id = models.ForeignKey(Item, on_delete=models.CASCADE) #TODO REMOVE _id
     item_quantity = models.IntegerField(null=False)
     booking_item_cost = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=True)
 
@@ -70,8 +70,8 @@ class BookingItem(models.Model):
 
 class Ticket(models.Model):
     ticket_id = models.AutoField(primary_key=True)
-    booking_id = models.ForeignKey(Booking, on_delete=models.CASCADE)
-    scheduled_flight_id = models.ForeignKey(ScheduledFlight, on_delete=models.CASCADE)
+    booking_id = models.ForeignKey(Booking, on_delete=models.CASCADE) #TODO REMOVE _id
+    scheduled_flight_id = models.ForeignKey(ScheduledFlight, on_delete=models.CASCADE) #TODO REMOVE _id
     SEAT_CLASS_CHOICES = [
         ('1st Class', '1st Class'),
         ('Business Class', 'Business Class'),
@@ -85,7 +85,7 @@ class Ticket(models.Model):
     def save(self, *args, **kwargs):
 
         if self.scheduled_flight_id and self.seat_class:
-            seat_class_dict = {"1st Class": 5000, "Business Class": 2500, "Premium Economy Class": 1000, "Regular Economy": 0}
+            seat_class_dict = {"1st Class": 5000, "Business Class": 2500, "Premium Economy Class": 1000, "Regular Economy": 0} #TODO ADD "CLASS"
             seat_class_charge = seat_class_dict[self.seat_class]
             self.ticket_cost = self.scheduled_flight_id.flight_cost + seat_class_charge
 
