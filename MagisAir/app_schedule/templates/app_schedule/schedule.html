@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Scheduled Flights - MagisAir{% endblock %}
+
+{% block content %}
+  <h2>Schedule Flights</h2>
+  <ul>
+    {% for instance in flights %}
+        <li>
+            {% for value in instance %}
+                {{ value }}
+            {% endfor %}
+        </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

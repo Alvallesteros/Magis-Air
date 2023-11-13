@@ -4,7 +4,6 @@ from django.db import models
 from app_routes.models import BaseFlight
 
 # Create your models here.
-
 class ScheduledFlight(models.Model):
     # Scheduled_Flight_ID
     scheduled_flight_id = models.AutoField(primary_key=True)
