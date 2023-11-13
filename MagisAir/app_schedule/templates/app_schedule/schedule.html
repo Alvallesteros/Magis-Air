@@ -4,6 +4,14 @@
 
 {% block content %}
   <h2>Schedule Flights</h2>
+
+  <form method="get">
+    {{ form.as_p }}
+    <button type="submit">Filter</button>
+  </form>
+
+  <h4>Departures on {{ date|date:"F j, Y" }}</h4>
+
   <table>
     <thead>
       {% for name in column_names %}
