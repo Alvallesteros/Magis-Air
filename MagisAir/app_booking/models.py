@@ -70,8 +70,8 @@ class BookingItem(models.Model):
 
 class Ticket(models.Model):
     ticket_id = models.AutoField(primary_key=True)
-    booking_id = models.ForeignKey(Booking, on_delete=models.CASCADE)
-    scheduled_flight_id = models.ForeignKey(ScheduledFlight, on_delete=models.CASCADE)
+    booking_id = models.ForeignKey(Booking, on_delete=models.CASCADE) #TODO REMOVE _id
+    scheduled_flight_id = models.ForeignKey(ScheduledFlight, on_delete=models.CASCADE) #TODO REMOVE _id
     SEAT_CLASS_CHOICES = [
         ('1st Class', '1st Class'),
         ('Business Class', 'Business Class'),
@@ -85,7 +85,7 @@ class Ticket(models.Model):
     def save(self, *args, **kwargs):
 
         if self.scheduled_flight_id and self.seat_class:
-            seat_class_dict = {"1st Class": 5000, "Business Class": 2500, "Premium Economy Class": 1000, "Regular Economy": 0}
+            seat_class_dict = {"1st Class": 5000, "Business Class": 2500, "Premium Economy Class": 1000, "Regular Economy": 0} #TODO ADD "CLASS"
             seat_class_charge = seat_class_dict[self.seat_class]
             self.ticket_cost = self.scheduled_flight_id.flight_cost + seat_class_charge
 
