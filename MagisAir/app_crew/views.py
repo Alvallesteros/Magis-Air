@@ -2,18 +2,16 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.db import connection 
 from django.views import View 
-from .models import CrewMember, CrewAssignment
-import datetime as dt
 from .forms import DateFilterForm
 
 # Create your views here.
 class CrewAssignments(View):
     template_name = 'app_crew/crew.html'
 
-    def dateTimeTransform(self, date, time):
+    def dateTimeTransform(self, date, time): # combine date and time columns into one
             return date.strftime('%-d %B %Y') + ', ' + time.strftime('%H:%M')
         
-    def nameTransform(self, first, last):
+    def nameTransform(self, first, last): # combine last and firstnames into one
         return last + ', ' + first
 
     def get(self, request, *args, **kwargs):
@@ -39,18 +37,22 @@ class CrewAssignments(View):
                 '''
         
         with connection.cursor() as cursor:
-            if form.is_valid():
-                filter_date = form.cleaned_data['filter_date']                 
-                cursor.execute(query.format(_where='WHERE sf.departure_date = %s'), [filter_date])
-            else:
-                cursor.execute(query.format(_where=''))
 
+            if form.is_valid():
+                start_date = form.cleaned_data['filter_date']
+                if start_date == None: # check if no date (default get) because i set required=False to remove error msg
+                    where=''
+                else: # this is if date
+                    where = 'WHERE sf.departure_date = %s'.format(start_date)
+            else: # if not valid (just failsafe)
+                where=''
+            cursor.execute(query.format(_where=where))
             columns = [col[0] for col in cursor.description]
             results = [dict (zip(columns, row)) for row in cursor.fetchall()]
 
-            formatted_columns = [col.title() for col in columns][3:]
+            formatted_columns = [col.title() for col in columns][3:] # first columns are only for formatting name and dates
 
-            for r in results:
+            for r in results: # format departure, arrival datetimes and crew names
                 r['departure'] = self.dateTimeTransform(r['departure'], r['departure_time'])
                 r['arrival'] = self.dateTimeTransform(r['arrival'], r['arrival_time'])
                 r['crew'] = self.nameTransform(r['crew'], r['last_name'])

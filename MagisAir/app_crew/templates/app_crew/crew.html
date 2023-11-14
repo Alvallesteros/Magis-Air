@@ -5,6 +5,11 @@
 {% block content %}
   <h2>Crew Schedules</h2>
 
+  <form method="get">
+    {{ form.as_p }}
+    <button type="submit">Filter</button>
+  </form>
+
   <table>
     <thead>
       {% for name in headers %}
