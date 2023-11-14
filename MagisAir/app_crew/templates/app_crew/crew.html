@@ -17,8 +17,10 @@
           <td>{{ row.role }}</td>
           <td>{{ row.flight }}</td>
           <td>{{ row.destination }}</td>
-          <td>{{ row.departure|time:"H:i"|date:"%-d %b %Y"}}</td>
-          <td>{{ row.arrival|time:"H:i"|date:"%-d %b %Y"}}</td>
+          <td>{{ row.departure }}</td>
+          <td>{{ row.departure_time }}</td>
+          <td>{{ row.arrival }}</td>
+          <td>{{ row.arrival_time }}</td>
       </tr>
     {% endfor %}
   </table>
