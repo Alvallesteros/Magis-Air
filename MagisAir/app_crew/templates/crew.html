@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Crew Schedules - MagisAir{% endblock %}
+
+{% block content %}
+  <h2>Crew Schedules</h2>
+
+  <table>
+    <thead>
+      {% for name in headers %}
+        <td>{{ name }}</td>
+      {% endfor %}
+    </thead>
+    {% for row in rows %}
+      <tr>
+          <td>{{ row.crew }}</td>
+          <td>{{ row.role }}</td>
+          <td>{{ row.flight }}</td>
+          <td>{{ row.destination }}</td>
+          <td>{{ row.departure|time:"H:i"|date:"%-d %b %Y"}}</td>
+          <td>{{ row.arrival|time:"H:i"|date:"%-d %b %Y"}}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
