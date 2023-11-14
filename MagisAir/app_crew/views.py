@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.db import connection 
 from django.views import View 
-from models import CrewMember, CrewAssignment
+from .models import CrewMember, CrewAssignment
 
 # Create your views here.
 class CrewAssignments(View):
