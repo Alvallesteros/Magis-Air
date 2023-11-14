@@ -4,6 +4,7 @@ from django.db import connection
 from django.views import View 
 from .models import CrewMember, CrewAssignment
 import datetime as dt
+from .forms import DateFilterForm
 
 # Create your views here.
 class CrewAssignments(View):
@@ -16,6 +17,7 @@ class CrewAssignments(View):
         return last + ', ' + first
 
     def get(self, request, *args, **kwargs):
+        form = DateFilterForm(request.GET)
         query = '''
                 SELECT 
                     cm.last_name,
@@ -37,7 +39,12 @@ class CrewAssignments(View):
                 '''
         
         with connection.cursor() as cursor:
-            cursor.execute(query.format(_where=''))
+            if form.is_valid():
+                filter_date = form.cleaned_data['filter_date']                 
+                cursor.execute(query.format(_where='WHERE sf.departure_date = %s'), [filter_date])
+            else:
+                cursor.execute(query.format(_where=''))
+
             columns = [col[0] for col in cursor.description]
             results = [dict (zip(columns, row)) for row in cursor.fetchall()]
 
@@ -50,7 +57,8 @@ class CrewAssignments(View):
 
         context = {
             'headers' : formatted_columns,
-            'rows' : results
+            'rows' : results,
+            'form' : form
         }
 
         return render(request, self.template_name, context)
