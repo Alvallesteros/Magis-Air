@@ -1,0 +1,26 @@
+<html>
+<head>
+    <title>Flight List</title>
+</head>
+<body>
+  <h1>Flight List</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Flight Code</th>
+            <th>Flight Type</th>
+            <th>Route</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for flight in flights %}
+              <tr>
+                <td>{{ flight.flight_code }}</td>
+                <td>{{ flight.flight_type }}</td>
+                <td>{{ flight.route }}</td>
+              </tr>
+            {% endfor %}
+        </tbody>
+       </table>
+</body>
+</html>
