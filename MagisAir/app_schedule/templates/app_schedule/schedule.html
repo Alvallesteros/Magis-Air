@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Scheduled Flights - MagisAir{% endblock %}
+
+{% block content %}
+  <h2>Schedule Flights</h2>
+
+  <form method="get">
+    {{ form.as_p }}
+    <button type="submit">Filter</button>
+  </form>
+
+  <h4>Departures on {{ filter_date|date:"F j, Y" }}</h4>
+
+  <table>
+    <thead>
+      {% for name in column_names %}
+        <td>{{ name }}</td>
+      {% endfor %}
+    </thead>
+    {% for instance in flights %}
+      <tr>
+          <td>{{ instance.flight_code }}</td>
+          <td>{{ instance.origin }}</td>
+          <td>{{ instance.destination }}</td>
+          <td>{{ instance.departure|time:"H:i" }}</td>
+          <td>{{ instance.arrival|time:"H:i" }}</td>
+          <td>{{ instance.duration }} </td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
