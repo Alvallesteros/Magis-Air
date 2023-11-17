@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.db import connection
@@ -11,6 +13,12 @@ class ScheduledFlights(View):
 
     def get(self, request, *args, **kwargs):
         form = DateFilterForm(request.GET)
+
+        filter_date = date.today()
+
+        if form.is_valid():
+                filter_date = form.cleaned_data['filter_date']
+
         raw_query='''
             SELECT bf.flight_code, r.origin, r.destination, sf.departure_time AS "departure", sf.arrival_time AS "arrival", sf.duration
                     FROM app_schedule_ScheduledFlight AS sf
@@ -20,11 +28,8 @@ class ScheduledFlights(View):
                     '''
 
         with connection.cursor() as cursor:                             #SOURCE: https://docs.djangoproject.com/en/4.2/topics/db/sql/
-            if form.is_valid():
-                filter_date = form.cleaned_data['filter_date']                 
-                cursor.execute(raw_query.format(_where='WHERE sf.departure_date = %s'), [filter_date])
-            else:
-                cursor.execute(raw_query.format(_where=''))
+                             
+            cursor.execute(raw_query.format(_where='WHERE sf.departure_date = %s'), [filter_date])
 
             columns = [col[0] for col in cursor.description]
             results = [dict(zip(columns, row)) for row in cursor.fetchall()]
@@ -37,7 +42,7 @@ class ScheduledFlights(View):
         context = { 'flights': results,
                     'column_names': formatted_columns,
                     'form': form,
-                    'date': filter_date
+                    'filter_date': filter_date
                     }
 
         return render(request, self.template_name, context)
