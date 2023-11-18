@@ -3,6 +3,7 @@ from django.shortcuts import render
 
 from django.views import View
 from django.db import connection
+from .forms import NameSearchForm
 
 # Create your views here.
 class BookingView(View):
@@ -62,24 +63,33 @@ class BookingListView(View):
     template_name = "app_booking/booking_list.html"
 
     def get(self, request, *args, **kwargs):
-        first_name = "Edwin"
-        last_name = "Smith"
+        form = NameSearchForm(request.GET)
+        
+        if form.is_valid():
+            first_name = form.cleaned_data.get('first_name')
+            last_name = form.cleaned_data.get('last_name')
+            message = 'You have the following bookings:'
 
-        name_query = '''
-            SELECT b.booking_id
-            FROM app_booking_Passenger p
-            JOIN app_booking_Booking b ON p.passenger_id = b.passenger_id
-            WHERE UPPER(p.last_name) LIKE UPPER(%s)
-                AND UPPER(p.first_name) LIKE UPPER(%s)
-        '''
+            name_query = '''
+                SELECT b.booking_id
+                FROM app_booking_Passenger p
+                JOIN app_booking_Booking b ON p.passenger_id = b.passenger_id
+                WHERE UPPER(p.first_name) LIKE UPPER(%s)
+                    AND UPPER(p.last_name) LIKE UPPER(%s)
+            '''
 
-        with connection.cursor() as cursor:
-            cursor.execute(name_query, [last_name, first_name])
-            columns = [col[0] for col in cursor.description]
-            booking_list = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            with connection.cursor() as cursor:
+                cursor.execute(name_query, [first_name, last_name])
+                columns = [col[0] for col in cursor.description]
+                booking_list = [dict(zip(columns, row)) for row in cursor.fetchall()]
+        else:
+            message = 'Please enter your name'
+            booking_list = []
 
         context = {
-            "booking_list": booking_list
+            "booking_list": booking_list,
+            "message": message,
+            "form": form
         }
 
         return render(request, self.template_name, context)

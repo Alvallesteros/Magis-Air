@@ -4,7 +4,13 @@
 
 {% block content %}
     <h1>Booking List</h1>
-    <h3>You have the following bookings:</h3>
+    <h3>{{ message }}</h3>
+
+    <form method="get" action="{% url 'booking_list' %}">
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form>
+
     <ul>
         {% for books in booking_list%}
             <li>
