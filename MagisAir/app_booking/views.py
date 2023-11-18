@@ -11,26 +11,53 @@ class BookingView(View):
     name = ""
 
     def get(self, request, *args, **kwargs):
-        raw_query = '''
-                        SELECT * 
-                        FROM app_booking_Booking b
-                        JOIN app_booking_Passenger p ON b.passenger_id = p.passenger_id
-                        WHERE UPPER(p.first_name) LIKE "TAYLOR"
-                            AND UPPER(p.last_name) LIKE "ODOM"
-                            AND b.booking_id = 40;
-                    '''
 
-        with connection.cursor() as cursor:
-            cursor.execute(raw_query)
+        booking_id = '94'
 
-            columns = [col[0] for col in cursor.description]
-            booking = [dict(zip(columns, row)) for row in cursor.fetchall()]
-
-            formatted_columns = [col.replace('_', ' ').title() for col in columns]
+        core_query = '''
+            SELECT b.booking_id, b.booking_date, b.booking_time
+            FROM app_booking_Booking b
+            WHERE b.booking_id = %s 
+        '''
+        passenger_query = '''
+            SELECT p.last_name, p.first_name, p.middle_initial, p.gender, p.birthday
+            FROM app_booking_Passenger p
+            JOIN app_booking_Booking b ON p.passenger_id = b.passenger_id
+            WHERE b.booking_id = %s
+        '''
+        item_query = '''
+            SELECT i.item_id, i.item_name, i.description, bi.item_quantity, bi.booking_item_cost
+            FROM app_booking_BookingItem bi
+            JOIN app_booking_Item i ON bi.item_id = i.item_id
+            WHERE bi.booking_id = %s
+        '''
+        flight_query = '''
+            SELECT bf.flight_code, r.origin, r.destination, sf.departure_date, sf.departure_time, sf.arrival_date, sf.arrival_time, sf.duration, t.ticket_cost
+            FROM app_booking_ticket t
+            JOIN app_schedule_ScheduledFlight sf ON t.scheduled_flight_id = sf.scheduled_flight_id
+            JOIN app_routes_BaseFlight bf ON sf.base_flight_id = bf.id
+            JOIN app_routes_Route r ON bf.route_id = r.route_id
+            WHERE t.booking_id = %s
+        '''
 
         context = {
-            "booking_content": booking,
-            "column_names": formatted_columns
+            "booking": getBookingQuery(booking_id, core_query),
+            "passenger": getBookingQuery(booking_id, passenger_query),
+            "item": getBookingQuery(booking_id, item_query),
+            "flight": getBookingQuery(booking_id, flight_query),
         }
 
         return render(request, self.template_name, context)
+
+def formatColumns(lst):
+    temp_lst = lst
+    lst = [col.replace('_', ' ').title() for col in temp_lst]
+    return lst
+
+def getBookingQuery(booking_id, query):
+    with connection.cursor() as cursor:
+            cursor.execute(query, [booking_id])
+            columns = [col[0] for col in cursor.description]
+            content = [dict(zip(columns, row)) for row in cursor.fetchall()]
+
+    return {"content": content, "columns": formatColumns(columns)}

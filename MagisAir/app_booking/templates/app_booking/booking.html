@@ -14,16 +14,64 @@
 
   <table>
     <thead>
-      {% for name in column_names %}
+      {% for name in booking.columns %}
         <td>{{ name }}</td>
       {% endfor %}
     </thead>
-    {% for instance in booking_content %}
-        <tr>
-            {% for column, value in instance.items %}
-                <td>{{ value }}</td>
-            {% endfor %}
-        </tr>
+    {% for instance in booking.content %}
+      <tr>
+        {% for column, value in instance.items %}
+          <td>{{ value }}</td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </table>
+  <br>
+  <br>
+  <table>
+    <thead>
+      {% for name in passenger.columns %}
+        <td>{{ name }}</td>
+      {% endfor %}
+    </thead>
+    {% for instance in passenger.content %}
+      <tr>
+        {% for column, value in instance.items %}
+          <td>{{ value }}</td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </table>
+  <br>
+  <br>
+  <table>
+    <thead>
+      {% for name in item.columns %}
+        <td>{{ name }}</td>
+      {% endfor %}
+    </thead>
+    {% for instance in item.content %}
+      <tr>
+        {% for column, value in instance.items %}
+          <td>{{ value }}</td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </table>
+  <br>
+  <br>
+  <table>
+    <thead>
+      {% for name in flight.columns %}
+        <td>{{ name }}</td>
+      {% endfor %}
+    </thead>
+    {% for instance in flight.content %}
+      <tr>
+        {% for column, value in instance.items %}
+          <td>{{ value }}</td>
+        {% endfor %}
+      </tr>
     {% endfor %}
   </table>
 {% endblock %}
