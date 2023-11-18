@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Booking List - MagisAir{% endblock %}
+
+{% block content %}
+    <h1>Booking List</h1>
+    <h3>You have the following bookings:</h3>
+    <ul>
+        {% for books in booking_list%}
+            <li>
+                <a href="{% url 'booking_detail' books.booking_id %}">Booking {{ books.booking_id }}</a>
+            </li>
+        {% endfor%}
+    </ul>
+{% endblock %}

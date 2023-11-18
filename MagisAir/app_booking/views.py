@@ -8,11 +8,7 @@ from django.db import connection
 class BookingView(View):
     template_name = "app_booking/booking.html"
 
-    name = ""
-
-    def get(self, request, *args, **kwargs):
-
-        booking_id = '94'
+    def get(self, request, booking_id, *args, **kwargs):
 
         core_query = '''
             SELECT b.booking_id, b.booking_date, b.booking_time
@@ -61,3 +57,29 @@ def getBookingQuery(booking_id, query):
             content = [dict(zip(columns, row)) for row in cursor.fetchall()]
 
     return {"content": content, "columns": formatColumns(columns)}
+
+class BookingListView(View):
+    template_name = "app_booking/booking_list.html"
+
+    def get(self, request, *args, **kwargs):
+        first_name = "Edwin"
+        last_name = "Smith"
+
+        name_query = '''
+            SELECT b.booking_id
+            FROM app_booking_Passenger p
+            JOIN app_booking_Booking b ON p.passenger_id = b.passenger_id
+            WHERE UPPER(p.last_name) LIKE UPPER(%s)
+                AND UPPER(p.first_name) LIKE UPPER(%s)
+        '''
+
+        with connection.cursor() as cursor:
+            cursor.execute(name_query, [last_name, first_name])
+            columns = [col[0] for col in cursor.description]
+            booking_list = [dict(zip(columns, row)) for row in cursor.fetchall()]
+
+        context = {
+            "booking_list": booking_list
+        }
+
+        return render(request, self.template_name, context)
