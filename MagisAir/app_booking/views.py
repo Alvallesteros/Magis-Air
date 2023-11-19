@@ -1,3 +1,5 @@
+from datetime import *
+
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -35,6 +37,7 @@ class BookingView(View):
             JOIN app_routes_BaseFlight bf ON sf.base_flight_id = bf.id
             JOIN app_routes_Route r ON bf.route_id = r.route_id
             WHERE t.booking_id = %s
+            ORDER BY sf.departure_date
         '''
 
         context = {
@@ -56,6 +59,20 @@ def getBookingQuery(booking_id, query):
             cursor.execute(query, [booking_id])
             columns = [col[0] for col in cursor.description]
             content = [dict(zip(columns, row)) for row in cursor.fetchall()]
+
+    ##FORMATTING##
+    for items in content:
+        if 'gender' in items:
+            items['gender'] = f"{"Male" if content[0]['gender'] == 'M' else ("Female" if content[0]['gender'] == 'F' else "Other")}"
+        if 'departure' in items:
+            temp = datetime.strptime(items['departure'], "%Y-%m-%d, %H:%M:%S")
+            items['departure'] = temp.strftime("%d %b %Y, %H:%M")
+        if 'arrival' in items:
+            temp = datetime.strptime(items['arrival'], "%Y-%m-%d, %H:%M:%S")
+            items['arrival'] = temp.strftime("%d %b %Y, %H:%M")
+        if 'duration' in items:
+            hours, minutes = map(int, items['duration'].split(':'))
+            items['duration'] = f"{hours} {'hour' if hours == 1 else 'hours'} {minutes} {'minute' if minutes == 1 else 'minutes'}"
 
     return {"content": content, "columns": formatColumns(columns)}
 
