@@ -168,16 +168,16 @@ class BookingReportView(View):
         today = date.today()
         if filter_type == "Past Day":
             yesterday = today - timedelta(days=1)
-            params = [yesterday]
+            params = [yesterday, today]
         if filter_type == "Past Week":
             week = today - timedelta(days=7)
-            params = [week]
+            params = [week, today]
         if filter_type == "Past Month":
             month = today - timedelta(days=30)
-            params = [month]
+            params = [month, today]
         if filter_type == "Past Year":
             year = today - timedelta(days=365)
-            params = [year]
+            params = [year, today]
 
-        where = "WHERE b.booking_date >= %s"
+        where = "WHERE b.booking_date BETWEEN %s AND %s"
         return where, params
