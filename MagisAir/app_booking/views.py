@@ -12,7 +12,7 @@ class BookingView(View):
     def get(self, request, booking_id, *args, **kwargs):
 
         core_query = '''
-            SELECT b.booking_id, b.booking_date, b.booking_time
+            SELECT b.booking_id, b.booking_date, b.booking_time, b.total_cost
             FROM app_booking_Booking b
             WHERE b.booking_id = %s 
         '''
@@ -23,13 +23,13 @@ class BookingView(View):
             WHERE b.booking_id = %s
         '''
         item_query = '''
-            SELECT i.item_id, i.item_name, i.description, bi.item_quantity, bi.booking_item_cost
+            SELECT (i.item_name || ' ('|| i.description ||')') AS description, bi.item_quantity AS quantity, bi.booking_item_cost AS cost
             FROM app_booking_BookingItem bi
             JOIN app_booking_Item i ON bi.item_id = i.item_id
             WHERE bi.booking_id = %s
         '''
         flight_query = '''
-            SELECT bf.flight_code, r.origin, r.destination, sf.departure_date, sf.departure_time, sf.arrival_date, sf.arrival_time, sf.duration, t.ticket_cost
+            SELECT bf.flight_code, r.origin, r.destination, (sf.departure_date || ', ' || sf.departure_time) AS departure, (sf.arrival_date || ', ' || sf.arrival_time) AS arrival, sf.duration, t.ticket_cost
             FROM app_booking_ticket t
             JOIN app_schedule_ScheduledFlight sf ON t.scheduled_flight_id = sf.scheduled_flight_id
             JOIN app_routes_BaseFlight bf ON sf.base_flight_id = bf.id
