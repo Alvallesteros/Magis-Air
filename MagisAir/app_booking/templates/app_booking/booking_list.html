@@ -19,6 +19,13 @@
         {% endfor%}
     </ul>
 
+    Or Search a Specific Passenger's Travel History:
+    <form method="get" action="{% url 'booking_list' %}">
+        {% csrf_token %}
+        {{ formID.as_p }}
+        <button type="submit">Search</button>
+    </form>
+
     Or Generate Reports: <br>
     <a href="{% url 'booking_report' %}">Check Reports</a>
 {% endblock %}

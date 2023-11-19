@@ -1,11 +1,12 @@
 from datetime import *
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from django.shortcuts import render
 
 from django.views import View
 from django.db import connection
-from .forms import NameSearchForm, DateRangeForm
+from .forms import NameSearchForm, DateRangeForm, IdSearchForm
 
 # Create your views here.
 class BookingView(View):
@@ -81,6 +82,7 @@ class BookingListView(View):
 
     def get(self, request, *args, **kwargs):
         form = NameSearchForm(request.GET)
+        formId = IdSearchForm(request.GET)
         
         if form.is_valid():
             first_name = form.cleaned_data.get('first_name')
@@ -103,10 +105,15 @@ class BookingListView(View):
             message = 'Please enter your name'
             booking_list = []
 
+        if formId.is_valid():
+            passenger_id = formId.cleaned_data['passenger_id']
+            return HttpResponseRedirect(reverse('travel_history', kwargs={'passenger_id': passenger_id}))
+
         context = {
             "booking_list": booking_list,
             "message": message,
-            "form": form
+            "form": form,
+            "formID": formId
         }
 
         return render(request, self.template_name, context)
@@ -181,3 +188,30 @@ class BookingReportView(View):
 
         where = "WHERE b.booking_date BETWEEN %s AND %s"
         return where, params
+
+class TravelHistoryView(View):
+    template_name = "app_booking/travel_history.html"
+
+    def get(self, request, passenger_id, *args, **kwargs):
+        history_query = '''
+            SELECT p.last_name, p.first_name, p.middle_initial, b.booking_id, bf.flight_code, r.origin, r.destination, sf.departure_date
+            FROM app_booking_Passenger p
+            JOIN app_booking_Booking b ON p.passenger_id = b.passenger_id
+            JOIN app_booking_Ticket t ON b.booking_id = t.booking_id
+            JOIN app_schedule_ScheduledFlight sf ON t.scheduled_flight_id = sf.scheduled_flight_id
+            JOIN app_routes_BaseFlight bf ON sf.base_flight_id = bf.id
+            JOIN app_routes_Route r ON bf.route_id = r.route_id
+            WHERE p.passenger_id = %s
+            ORDER BY sf.departure_date
+        '''
+
+        with connection.cursor() as cursor:
+                cursor.execute(history_query, [passenger_id])
+                columns = [col[0] for col in cursor.description]
+                history = [dict(zip(columns, row)) for row in cursor.fetchall()]
+
+        context = {
+            "history": history,
+        }
+
+        return render(request, self.template_name, context)

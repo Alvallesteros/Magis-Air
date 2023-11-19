@@ -7,3 +7,6 @@ class NameSearchForm(forms.Form):
 class DateRangeForm(forms.Form):
     start_date = forms.DateField(label='Start Date', widget=forms.DateInput(attrs={'type': 'date'}), required=False)
     end_date = forms.DateField(label='End Date', widget=forms.DateInput(attrs={'type': 'date'}), required=False)
+
+class IdSearchForm(forms.Form):
+    passenger_id = forms.CharField(max_length=255, required=True)
