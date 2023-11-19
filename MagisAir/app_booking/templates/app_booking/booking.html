@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Booking - MagisAir{% endblock %}
+
+{% block content %}
+  <h1>Booking</h1>
+  <p>Booking ID: {{ booking.content.0.booking_id }}</p>
+
+  <h3>Flight Booking</h3>
+  Passenger: {{ passenger.content.0.last_name }}, {{ passenger.content.0.first_name}} {{ passenger.content.0.middle_initial }}. <br>
+  Date: {{ booking.content.0.booking_date }} <br>
+  Birth Date: {{ passenger.content.0.birthday }} <br>
+  Gender: {{ passenger.content.0.gender }} <br>
+  Total Cost: PhP {{ booking.content.0.total_cost }} <br>
+  <br>
+
+  <h3>Trip Itinerary</h3>
+  <table>
+    <thead>
+      {% for name in flight.columns %}
+        <td>{{ name }}</td>
+      {% endfor %}
+    </thead>
+    {% for instance in flight.content %}
+      <tr>
+        <td>{{ instance.flight_code }}</td>
+        <td>{{ instance.origin }}</td>
+        <td>{{ instance.destination }}</td>
+        <td>{{ instance.departure }}</td>
+        <td>{{ instance.arrival }}</td>
+        <td>{{ instance.duration }}</td>
+        <td>PhP {{ instance.ticket_cost }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <h3>Additional Items</h3>
+  <table>
+    <thead>
+      {% for name in item.columns %}
+        <td>{{ name }}</td>
+      {% endfor %}
+    </thead>
+    {% for instance in item.content %}
+      <tr>
+        <td>{{ instance.description }}</td>
+        <td>{{ instance.quantity }}</td>
+        <td>PhP {{ instance.cost }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <br>
+  <a href="{% url 'booking_list' %}">Go Back</a>
+{% endblock %}

@@ -10,6 +10,14 @@
     <button type="submit">Filter</button>
   </form>
 
+  Filters: <br>
+  <a href="{% url 'crew_assignments' %}">All Assignments</a>
+  <a href="{% url 'crew_assignments_filtered' filter_type='Past Day' %}">The Past Day</a>
+  <a href="{% url 'crew_assignments_filtered' filter_type='Past Week' %}">The Past Week</a>
+  <a href="{% url 'crew_assignments_filtered' filter_type='Past Month' %}">The Past Month</a>
+  <a href="{% url 'crew_assignments_filtered' filter_type='Past Year' %}">The Past Year</a>
+  <br>
+
   <table>
     <thead>
       {% for name in headers %}

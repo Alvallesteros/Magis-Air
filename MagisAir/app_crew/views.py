@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.db import connection 
 from django.views import View 
 from .forms import DateFilterForm
+from datetime import *
 
 # Create your views here.
 class CrewAssignments(View):
@@ -14,7 +15,7 @@ class CrewAssignments(View):
     def nameTransform(self, first, last): # combine last and firstnames into one
         return last + ', ' + first
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, filter_type=None, *args, **kwargs):
         form = DateFilterForm(request.GET)
         query = '''
                 SELECT 
@@ -38,18 +39,22 @@ class CrewAssignments(View):
         
         with connection.cursor() as cursor:
 
-            if form.is_valid():
-                start_date = [form.cleaned_data['filter_date']]
-                if start_date[0]: # check if date is not None
-                    where = 'WHERE sf.departure_date = %s'
+            if filter_type:
+                params, where = self.get_filtered_crew(filter_type)
+            elif form.is_valid():
+                start_date = form.cleaned_data['start_date']
+                end_date = form.cleaned_data['end_date']
+                if start_date and end_date: # check if date is not None
+                    params = [start_date, end_date]
+                    where = 'WHERE sf.departure_date BETWEEN %s AND %s'
                 else:
-                    start_date = []
+                    params = []
                     where=''
             else: # if not valid (just failsafe)
-                start_date = []
+                params = []
                 where=''
             
-            cursor.execute(query.format(_where=where), start_date)
+            cursor.execute(query.format(_where=where), params)
             columns = [col[0] for col in cursor.description]
             results = [dict (zip(columns, row)) for row in cursor.fetchall()]
 
@@ -67,3 +72,21 @@ class CrewAssignments(View):
         }
 
         return render(request, self.template_name, context)
+
+    def get_filtered_crew(self, filter_type):
+        today = date.today()
+        if filter_type == "Past Day":
+            yesterday = today - timedelta(days=1)
+            params = [yesterday, today]
+        if filter_type == "Past Week":
+            week = today - timedelta(days=7)
+            params = [week, today]
+        if filter_type == "Past Month":
+            month = today - timedelta(days=30)
+            params = [month, today]
+        if filter_type == "Past Year":
+            year = today - timedelta(days=365)
+            params = [year, today]
+
+        where = "WHERE sf.departure_date BETWEEN %s AND %s"
+        return params, where

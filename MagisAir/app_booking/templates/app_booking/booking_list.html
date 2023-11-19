@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Booking List - MagisAir{% endblock %}
+
+{% block content %}
+    <h1>Booking List</h1>
+    <h3>{{ message }}</h3>
+
+    <form method="get" action="{% url 'booking_list' %}">
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form>
+
+    <ul>
+        {% for books in booking_list%}
+            <li>
+                <a href="{% url 'booking_detail' books.booking_id %}">Booking {{ books.booking_id }}</a>
+            </li>
+        {% endfor%}
+    </ul>
+
+    Or Generate Reports: <br>
+    <a href="{% url 'booking_report' %}">Check Reports</a>
+{% endblock %}
