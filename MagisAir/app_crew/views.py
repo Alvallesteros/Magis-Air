@@ -9,7 +9,7 @@ class CrewAssignments(View):
     template_name = 'app_crew/crew.html'
 
     def dateTimeTransform(self, date, time): # combine date and time columns into one
-            return date.strftime('%-d %B %Y') + ', ' + time.strftime('%H:%M')
+            return date.strftime('%d %B %Y') + ', ' + time.strftime('%H:%M')
         
     def nameTransform(self, first, last): # combine last and firstnames into one
         return last + ', ' + first
@@ -27,26 +27,29 @@ class CrewAssignments(View):
                     fr.destination AS "destination",
                     sf.departure_date AS "departure",
                     sf.arrival_date AS "arrival"
-                    FROM app_crew_CrewMember AS cm
-                    JOIN app_crew_CrewAssignment AS ca ON cm.crew_member_id = ca.crew_member_id
-                    JOIN app_schedule_ScheduledFlight AS sf ON ca.scheduled_flight_id = sf.scheduled_flight_id
-                    JOIN app_routes_BaseFlight AS bf ON sf.base_flight_id=bf.id
-                    JOIN app_routes_Route AS fr ON bf.route_id=fr.route_id
-                    {_where}
-                    ORDER BY bf.flight_code
+                FROM app_crew_CrewMember AS cm
+                JOIN app_crew_CrewAssignment AS ca ON cm.crew_member_id = ca.crew_member_id
+                JOIN app_schedule_ScheduledFlight AS sf ON ca.scheduled_flight_id = sf.scheduled_flight_id
+                JOIN app_routes_BaseFlight AS bf ON sf.base_flight_id=bf.id
+                JOIN app_routes_Route AS fr ON bf.route_id=fr.route_id
+                {_where}
+                ORDER BY bf.flight_code
                 '''
         
         with connection.cursor() as cursor:
 
             if form.is_valid():
-                start_date = form.cleaned_data['filter_date']
-                if start_date == None: # check if no date (default get) because i set required=False to remove error msg
+                start_date = [form.cleaned_data['filter_date']]
+                if start_date[0]: # check if date is not None
+                    where = 'WHERE sf.departure_date = %s'
+                else:
+                    start_date = []
                     where=''
-                else: # this is if date
-                    where = 'WHERE sf.departure_date = %s'.format(start_date)
             else: # if not valid (just failsafe)
+                start_date = []
                 where=''
-            cursor.execute(query.format(_where=where))
+            
+            cursor.execute(query.format(_where=where), start_date)
             columns = [col[0] for col in cursor.description]
             results = [dict (zip(columns, row)) for row in cursor.fetchall()]
 
