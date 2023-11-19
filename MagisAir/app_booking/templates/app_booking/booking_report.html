@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Booking Reports - MagisAir{% endblock %}
+
+{% block content %}
+
+    <h1>Booking Reports</h1>
+    <form method="get">
+        {{ form.as_p }}
+        <button type="submit">Filter</button>
+    </form>
+
+    <h4>Filters:</h4>
+    <a href="{% url 'booking_report' %}">All Flights</a>
+    <a href="{% url 'booking_report_filtered' filter_type='Past Day'%}">The Past Day</a>
+    <a href="{% url 'booking_report_filtered' filter_type='Past Week'%}">The Past Week</a>
+    <a href="{% url 'booking_report_filtered' filter_type='Past Month'%}">The Past Month</a>
+    <a href="{% url 'booking_report_filtered' filter_type='Past Year'%}">The Past Year</a>
+
+    <table>
+        <thead>
+            {% for header in flights_column %}
+                <td>{{ header }}</td>
+            {% endfor %}
+        </thead>
+        {% for instance in flights %}
+            <tr>
+                <td>{{ instance.flight_code }}</td>
+                <td>PhP {{ instance.ticket_cost|floatformat:2 }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    Total Profit: PhP {{ total|floatformat:2 }} <br>
+
+    <a href="{% url 'booking_list' %}">Go Back</a>
+{% endblock %}

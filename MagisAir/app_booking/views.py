@@ -5,7 +5,7 @@ from django.shortcuts import render
 
 from django.views import View
 from django.db import connection
-from .forms import NameSearchForm
+from .forms import NameSearchForm, DateRangeForm
 
 # Create your views here.
 class BookingView(View):
@@ -110,3 +110,74 @@ class BookingListView(View):
         }
 
         return render(request, self.template_name, context)
+
+class BookingReportView(View):
+    template_name = "app_booking/booking_report.html"
+
+    def get(self, request, filter_type=None, *args, **kwargs):
+        form = DateRangeForm(request.GET)
+        if form.is_valid():
+            start_date = form.cleaned_data['start_date']
+            end_date = form.cleaned_data['end_date']
+
+        sum_flight_query = '''
+                SELECT bf.flight_code, SUM(t.ticket_cost) AS "ticket_cost"
+                FROM app_booking_Ticket t
+                JOIN app_booking_Booking b ON t.booking_id = b.booking_id
+                JOIN app_schedule_ScheduledFlight sf ON t.scheduled_flight_id = sf.scheduled_flight_id
+                JOIN app_routes_BaseFlight bf ON sf.base_flight_id = bf.id
+                JOIN app_routes_Route r ON bf.route_id = r.route_id
+                {_where}
+                GROUP BY bf.flight_code
+            '''
+
+        total_query = '''
+            SELECT SUM(t.ticket_cost) AS "ticket_cost"
+            FROM app_booking_Ticket t
+            JOIN app_booking_Booking b ON t.booking_id = b.booking_id
+            {_where}
+        '''
+
+        if filter_type:
+            temp_where, params = self.get_filtered_reports(filter_type)
+        elif start_date and end_date:
+            temp_where = "WHERE b.booking_date BETWEEN %s AND %s"
+            params = [start_date, end_date]
+        else:
+            temp_where = ''
+            params = []
+
+        with connection.cursor() as cursor:
+                cursor.execute(sum_flight_query.format(_where=temp_where), params)
+                flights_columns = [col[0] for col in cursor.description]
+                sum_flights = [dict(zip(flights_columns,row)) for row in cursor.fetchall()]
+
+                cursor.execute(total_query.format(_where=temp_where), params)
+                sum_total = cursor.fetchall()[0][0]
+
+        context = {
+            "flights": sum_flights,
+            "flights_column": formatColumns(flights_columns),
+            "total": sum_total,
+            "form": form,
+        }
+
+        return render(request, self.template_name, context)
+    
+    def get_filtered_reports(self, filter_type):
+        today = date.today()
+        if filter_type == "Past Day":
+            yesterday = today - timedelta(days=1)
+            params = [yesterday]
+        if filter_type == "Past Week":
+            week = today - timedelta(days=7)
+            params = [week]
+        if filter_type == "Past Month":
+            month = today - timedelta(days=30)
+            params = [month]
+        if filter_type == "Past Year":
+            year = today - timedelta(days=365)
+            params = [year]
+
+        where = "WHERE b.booking_date >= %s"
+        return where, params

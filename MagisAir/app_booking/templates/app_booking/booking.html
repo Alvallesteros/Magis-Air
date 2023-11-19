@@ -50,64 +50,6 @@
     {% endfor %}
   </table>
 
-
-  <!-- SHOW IT ALL ON A TABLE -->
-  <!--
-  <table>
-    <thead>
-      {% for name in booking.columns %}
-        <td>{{ name }}</td>
-      {% endfor %}
-    </thead>
-    {% for instance in booking.content %}
-      <tr>
-        {% for column, value in instance.items %}
-          <td>{{ value }}</td>
-        {% endfor %}
-      </tr>
-    {% endfor %}
-  </table>
-  <table>
-    <thead>
-      {% for name in passenger.columns %}
-        <td>{{ name }}</td>
-      {% endfor %}
-    </thead>
-    {% for instance in passenger.content %}
-      <tr>
-        {% for column, value in instance.items %}
-          <td>{{ value }}</td>
-        {% endfor %}
-      </tr>
-    {% endfor %}
-  </table>
-  <table>
-    <thead>
-      {% for name in item.columns %}
-        <td>{{ name }}</td>
-      {% endfor %}
-    </thead>
-    {% for instance in item.content %}
-      <tr>
-        {% for column, value in instance.items %}
-          <td>{{ value }}</td>
-        {% endfor %}
-      </tr>
-    {% endfor %}
-  </table>
-  <table>
-    <thead>
-      {% for name in flight.columns %}
-        <td>{{ name }}</td>
-      {% endfor %}
-    </thead>
-    {% for instance in flight.content %}
-      <tr>
-        {% for column, value in instance.items %}
-          <td>{{ value }}</td>
-        {% endfor %}
-      </tr>
-    {% endfor %}
-  </table>
-  -->
+  <br>
+  <a href="{% url 'booking_list' %}">Go Back</a>
 {% endblock %}
