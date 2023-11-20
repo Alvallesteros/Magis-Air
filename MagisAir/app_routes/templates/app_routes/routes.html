@@ -9,7 +9,8 @@
           <tr>
             <th>Flight Code</th>
             <th>Flight Type</th>
-            <th>Route</th>
+            <th>Origin</th>
+            <th>Destination</th>
           </tr>
         </thead>
         <tbody>
@@ -17,7 +18,8 @@
               <tr>
                 <td>{{ flight.flight_code }}</td>
                 <td>{{ flight.flight_type }}</td>
-                <td>{{ flight.route }}</td>
+                <td>{{ flight.route.origin }}</td>
+                <td>{{ flight.route.destination }}</td>
               </tr>
             {% endfor %}
         </tbody>
