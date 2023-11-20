@@ -19,10 +19,9 @@ class CrewAssignments(View):
         form = DateFilterForm(request.GET)
         query = '''
                 SELECT 
-                    cm.last_name,
                     sf.arrival_time,
                     sf.departure_time,
-                    cm.first_name AS "crew",
+                    (cm.last_name || ', ' || cm.first_name) AS "crew",
                     ca.role,
                     bf.flight_code AS "flight",
                     fr.destination AS "destination",
@@ -58,13 +57,12 @@ class CrewAssignments(View):
             columns = [col[0] for col in cursor.description]
             results = [dict (zip(columns, row)) for row in cursor.fetchall()]
 
-            formatted_columns = [col.title() for col in columns][3:] # first columns are only for formatting name and dates
+            formatted_columns = [col.title() for col in columns][2:] # first columns are only for formatting name and dates
 
             for r in results: # format departure, arrival datetimes and crew names
                 r['departure'] = self.dateTimeTransform(r['departure'], r['departure_time'])
                 r['arrival'] = self.dateTimeTransform(r['arrival'], r['arrival_time'])
-                r['crew'] = self.nameTransform(r['crew'], r['last_name'])
-
+            
         context = {
             'headers' : formatted_columns,
             'rows' : results,
