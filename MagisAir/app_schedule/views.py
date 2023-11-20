@@ -16,7 +16,7 @@ class ScheduledFlights(View):
 
         filter_date = date.today()
 
-        if form.is_valid():
+        if form.is_valid() and form.cleaned_data['filter_date']:
                 filter_date = form.cleaned_data['filter_date']
 
         raw_query='''
