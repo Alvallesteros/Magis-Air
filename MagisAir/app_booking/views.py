@@ -64,7 +64,7 @@ def getBookingQuery(booking_id, query):
     ##FORMATTING##
     for items in content:
         if 'gender' in items:
-            items['gender'] = f"{"Male" if content[0]['gender'] == 'M' else ("Female" if content[0]['gender'] == 'F' else "Other")}"
+            items['gender'] = f"{'Male' if content[0]['gender'] == 'M' else ('Female' if content[0]['gender'] == 'F' else 'Other')}"
         if 'departure' in items:
             temp = datetime.strptime(items['departure'], "%Y-%m-%d, %H:%M:%S")
             items['departure'] = temp.strftime("%d %b %Y, %H:%M")
@@ -105,7 +105,7 @@ class BookingListView(View):
             message = 'Please enter your name'
             booking_list = []
 
-        if formId.is_valid():
+        if formId.is_valid() and formId.cleaned_data['passenger_id']: # if passenger_id has anything in it, needed since field is not required
             passenger_id = formId.cleaned_data['passenger_id']
             return HttpResponseRedirect(reverse('travel_history', kwargs={'passenger_id': passenger_id}))
 
