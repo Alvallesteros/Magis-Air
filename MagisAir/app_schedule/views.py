@@ -37,7 +37,7 @@ class ScheduledFlights(View):
         context = { 'flights': results,
                     'column_names': formatted_columns,
                     'form': form,
-                    'date': filter_date
+                    # 'date': filter_date
                     }
 
         return render(request, self.template_name, context)

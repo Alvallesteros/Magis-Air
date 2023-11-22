@@ -1,0 +1,85 @@
+* {
+    font-family: 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+}
+body {
+    background-color: #fdfaf7;
+    margin: 0px;
+} 
+.header {
+    overflow: hidden;
+    padding: 20px 10px;
+    height: 30%;
+    width: auto;
+    align-items: baseline;
+    background-color: #262A56;
+    color: white;
+}
+.header a {
+   float: left;
+   color: white;
+   text-align: center;
+   padding: 12px;
+   text-decoration: none;
+   font-size: 18px;
+   line-height: 25px;
+   border-radius: 4px;
+   cursor: pointer;
+}
+.header a:hover {
+    background-color: #161933;
+    color: #afcaff;
+}
+.header a.active {
+    color: #afcaff;
+    pointer-events: none;
+    
+}
+.header-left {
+    margin-top: 13px;
+    margin-left: 10px;
+    font-size: larger;
+    font-weight: bolder;
+    float: left;
+}
+.header-right {
+    float: right;
+}
+table {
+    margin: 0 auto;
+    border: 2px solid black;
+}
+thead {
+    width: fit-content;
+    font-weight: bold;
+}
+td {
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #333;
+}
+.button-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+.button-container button {
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    justify-content: center;
+    margin-top: 10px;
+    width: 50px;
+    font-family: noto sans;
+}
+.button-container a {
+    text-decoration: none; 
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    justify-content: center;
+    margin-top: 10px;
+    width: 50px;
+    font-family: noto sans;
+}
