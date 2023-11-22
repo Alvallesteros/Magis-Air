@@ -2,21 +2,42 @@
 
 {% block title %}Crew Schedules - MagisAir{% endblock %}
 
+{% block header %} 
+  <div class="header">
+    <div class="header-left">
+      Magis Air
+    </div>
+    <div class="header-right">
+      <a href="booking/">Booking</a>
+      <a class="active" href="">Crew</a>
+      <a href="routes/">Routes</a>
+      <a href="../">Schedule</a>
+    </div>
+  </div>
+{% endblock %}
+
 {% block content %}
-  <h2>Crew Schedules</h2>
+  <center>
+    <h1>Crew Schedules</h1>
 
-  <form method="get">
-    {{ form.as_p }}
-    <button type="submit">Filter</button>
-  </form>
+    <form method="get">
+      {{ form.as_p }}
+      <div class="button-container">
+        <button type="submit">Filter</button>
+        <a href="../">Reset</a>
+      </div>
+    </form>
 
-  Filters: <br>
-  <a href="{% url 'crew_assignments' %}">All Assignments</a>
-  <a href="{% url 'crew_assignments_filtered' filter_type='Past Day' %}">The Past Day</a>
-  <a href="{% url 'crew_assignments_filtered' filter_type='Past Week' %}">The Past Week</a>
-  <a href="{% url 'crew_assignments_filtered' filter_type='Past Month' %}">The Past Month</a>
-  <a href="{% url 'crew_assignments_filtered' filter_type='Past Year' %}">The Past Year</a>
-  <br>
+    <br>Filters: <br>
+    <div class="filter-container">
+      <a href="{% url 'crew_assignments' %}">All Assignments</a>
+      <a href="{% url 'crew_assignments_filtered' filter_type='Past Day' %}">The Past Day</a>
+      <a href="{% url 'crew_assignments_filtered' filter_type='Past Week' %}">The Past Week</a>
+      <a href="{% url 'crew_assignments_filtered' filter_type='Past Month' %}">The Past Month</a>
+      <a href="{% url 'crew_assignments_filtered' filter_type='Past Year' %}">The Past Year</a>
+    </div>
+    <br>
+  </center>
 
   <table>
     <thead>
