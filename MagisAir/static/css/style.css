@@ -62,7 +62,7 @@ button:hover {
     flex-direction: column;
     z-index: 1;
     max-width: 520px;
-    max-height: 500px;
+    max-height: 600px;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
     outline: 0;
     width: 100%;
@@ -83,8 +83,19 @@ button:hover {
 .input-container a:hover {
     background-color: rgba(196, 193, 189, 0.248);
 }
-
-
+.booking-container {
+    width: auto;
+    margin: 0 auto;
+    border: 1px solid #262A56;
+    background-color: #9c9c9c70;    
+}
+.booking-container a {
+    color: black;
+    text-decoration: none;
+}
+.booking-container a:hover {
+    font-weight: bold;
+}
 /* booking report */
 .content-container {
     display: flex;

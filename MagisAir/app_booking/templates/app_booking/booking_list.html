@@ -27,13 +27,15 @@
             <button type="submit">Search</button>
         </form>
 
-        <ul>
+        <br>
+        <ul class="booking-container">
             {% for books in booking_list%}
                 <li>
                     <a href="{% url 'booking_detail' books.booking_id %}">Booking {{ books.booking_id }}</a>
                 </li>
             {% endfor%}
         </ul>
+        <br>
 
         Or Search a Specific Passenger's Travel History:
         <form method="get" action="{% url 'booking_list' %}">
