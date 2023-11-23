@@ -181,3 +181,18 @@ td {
     padding: 10px;
     border: 1px solid #333;
 }
+/* travel history */
+.travel-container {
+    padding: 50px;
+}
+.name {
+    padding-top: 0;
+    padding: 13px;
+}
+.travel-container a {
+    text-decoration: none;
+    color: black;
+}
+.travel-container a:hover {
+    font-weight: bold;
+}

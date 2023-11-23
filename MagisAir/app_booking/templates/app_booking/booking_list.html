@@ -3,49 +3,49 @@
 {% block title %}Booking List - MagisAir{% endblock %}
 
 {% block header %} 
-<div class="header">
-    <div class="header-left">
-        Magis Air
+    <div class="header">
+        <div class="header-left">
+            Magis Air
+        </div>
+        <div class="header-right">
+            <a class="active" href="">Booking</a>
+            <a href="crew/">Crew</a>
+            <a href="routes/">Routes</a>
+            <a href="../">Schedule</a>
+        </div>
     </div>
-    <div class="header-right">
-        <a class="active" href="">Booking</a>
-        <a href="crew/">Crew</a>
-        <a href="routes/">Routes</a>
-        <a href="../">Schedule</a>
-    </div>
-</div>
 {% endblock %}
 
 {% block content %}
-<center>
-    <h1>Booking List</h1>
-    <div class="input-container">
-        <h3>{{ message }}</h3>
+    <center>
+        <h1>Booking List</h1>
+        <div class="input-container">
+            <h3>{{ message }}</h3>
 
-        <form method="get" action="{% url 'booking_list' %}">
-            {{ form.as_p }}
-            <button type="submit">Search</button>
-        </form>
+            <form method="get" action="{% url 'booking_list' %}">
+                {{ form.as_p }}
+                <button type="submit">Search</button>
+            </form>
 
-        <br>
-        <ul class="booking-container">
-            {% for books in booking_list%}
-                <li>
-                    <a href="{% url 'booking_detail' books.booking_id %}">Booking {{ books.booking_id }}</a>
-                </li>
-            {% endfor%}
-        </ul>
-        <br>
+            <br>
+            <ul class="booking-container">
+                {% for books in booking_list%}
+                    <li>
+                        <a href="{% url 'booking_detail' books.booking_id %}">Booking {{ books.booking_id }}</a>
+                    </li>
+                {% endfor%}
+            </ul>
+            <br>
 
-        Or Search a Specific Passenger's Travel History:
-        <form method="get" action="{% url 'booking_list' %}">
-            {% csrf_token %}
-            {{ formID.as_p }}
-            <button type="submit">Search</button>
-        </form>
+            Or Search a Specific Passenger's Travel History:
+            <form method="get" action="{% url 'booking_list' %}">
+                {% csrf_token %}
+                {{ formID.as_p }}
+                <button type="submit">Search</button>
+            </form>
 
-        <br>Or Generate Reports: 
-        <a href="{% url 'booking_report' %}" class:"report">Check Reports</a>
-    </div>
-</center>
+            <br>Or Generate Reports: 
+            <a href="{% url 'booking_report' %}" class:"report">Check Reports</a>
+        </div>
+    </center>
 {% endblock %}
