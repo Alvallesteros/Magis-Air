@@ -9,8 +9,8 @@
         </div>
         <div class="header-right">
             <a class="active" href="">Booking</a>
-            <a href="crew/">Crew</a>
-            <a href="routes/">Routes</a>
+            <a href="../../crew/">Crew</a>
+            <a href="../../routes/">Routes</a>
             <a href="../">Schedule</a>
         </div>
     </div>
@@ -18,12 +18,10 @@
 
 {% block content %}
     <div class=travel-container>
-        <center><h1>Travel History</h1></center>
-        
-        <div class=name>
+        <center>
+            <h1>Travel History</h1>
             <h3>{{ history.0.last_name }}, {{ history.0.first_name }} {{ history.0.middle_initial }}.</h3>
-        </div>
-
+        </center>
         <table>
             <thead>
                 <td>Booking ID</td>
