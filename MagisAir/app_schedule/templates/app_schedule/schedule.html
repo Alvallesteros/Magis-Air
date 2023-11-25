@@ -28,8 +28,7 @@
       </div>
     </form>
 
-    {% comment %} doesnt work properly {% endcomment %}
-    <h4>Departures on {{ form.filter_date|date:"F j, Y" }}</h4>
+    <h4>Departures on {{ date|date:"F j, Y" }}</h4>
 
   </center>
   
