@@ -50,7 +50,8 @@ table {
 }
 thead {
     width: fit-content;
-    font-weight: bold;
+    background-color: #262A56;
+    color: white;
 }
 td {
     text-align: center;
@@ -70,7 +71,7 @@ td {
     justify-content: center;
     margin-top: 10px;
     width: 50px;
-    font-family: noto sans;
+    font-size: 15px;
 }
 .button-container a {
     text-decoration: none; 
@@ -81,5 +82,4 @@ td {
     justify-content: center;
     margin-top: 10px;
     width: 50px;
-    font-family: noto sans;
 }
