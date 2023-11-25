@@ -50,7 +50,8 @@ table, .table-header {
 }
 thead, .table-header {
     width: fit-content;
-    font-weight: bold;
+    background-color: #262A56;
+    color: white;
 }
 td, .table-header {
     text-align: center;
