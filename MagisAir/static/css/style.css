@@ -44,18 +44,31 @@ body {
 .header-right {
     float: right;
 }
-table {
-    margin: 0 auto;
-    border: 2px solid black;
+.content-container {
+    display: flex;
+    flex-direction: row;
+    padding: 30px;
+    margin: 10px;
+    justify-content: center;
 }
-thead {
-    width: fit-content;
-    font-weight: bold;
+.left-container,
+.right-container {
+    flex: 1;
 }
-td {
+.left-container {
+    margin-top: 30px;
+    display: flex;
     text-align: center;
-    padding: 8px;
-    border: 1px solid #333;
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column;
+    z-index: 1;
+    max-width: 300px;
+    max-height: 500px;
+    padding: 30px;
+    box-sizing: border-box;
+    background-color: rgba(205, 205, 205, 0.415);
+    border-radius: 5px;
 }
 .button-container {
     display: flex;
@@ -66,36 +79,57 @@ td {
     background-color: #333;
     color: white;
     border-radius: 5px;
-    text-align: center;
-    justify-content: center;
     margin-top: 10px;
-    width: 50px;
-    font-family: noto sans;
+    width: 70px;
+}
+.button-container button:hover {
+    pointer-events: auto;
 }
 .button-container a {
-    text-decoration: none; 
+    text-decoration: none;
     background-color: #333;
     color: white;
     border-radius: 5px;
-    text-align: center;
-    justify-content: center;
     margin-top: 10px;
-    width: 50px;
-    font-family: noto sans;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 6px;
+    padding-right: 6px;
+    width: 60px;
+    font-size: 14px;
 }
 .filter-container {
     display: flex;
     justify-content: center;
+    flex-direction: column;
 }
 .filter-container a{
+    color: black;
     text-decoration: none; 
-    background-color: #333;
     font-size: 15px;
-    color: white;
     text-align: center;
     justify-content: center;
     margin-top: 10px;
     padding: 5px;
     width: auto;
-    font-family: noto sans;
+}
+.filter-container a:hover {
+    font-weight: bold;
+}
+.right-container {
+    max-width: 70%;
+}
+table {
+    width: fit-content;
+    margin: 0 auto;
+    border: 2px solid black;
+}
+thead {
+    background-color: #262A56;
+    color: white;
+}
+td {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #333;
 }

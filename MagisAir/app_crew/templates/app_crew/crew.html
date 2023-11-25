@@ -8,9 +8,9 @@
       Magis Air
     </div>
     <div class="header-right">
-      <a href="booking/">Booking</a>
+      <a href="../booking/">Booking</a>
       <a class="active" href="">Crew</a>
-      <a href="routes/">Routes</a>
+      <a href="../routes/">Routes</a>
       <a href="../">Schedule</a>
     </div>
   </div>
@@ -19,41 +19,47 @@
 {% block content %}
   <center>
     <h1>Crew Schedules</h1>
-
-    <form method="get">
-      {{ form.as_p }}
-      <div class="button-container">
-        <button type="submit">Filter</button>
-        <a href="../">Reset</a>
-      </div>
-    </form>
-
-    <br>Filters: <br>
-    <div class="filter-container">
-      <a href="{% url 'crew_assignments' %}">All Assignments</a>
-      <a href="{% url 'crew_assignments_filtered' filter_type='Past Day' %}">The Past Day</a>
-      <a href="{% url 'crew_assignments_filtered' filter_type='Past Week' %}">The Past Week</a>
-      <a href="{% url 'crew_assignments_filtered' filter_type='Past Month' %}">The Past Month</a>
-      <a href="{% url 'crew_assignments_filtered' filter_type='Past Year' %}">The Past Year</a>
-    </div>
-    <br>
   </center>
 
-  <table>
-    <thead>
-      {% for name in headers %}
-        <td>{{ name }}</td>
-      {% endfor %}
-    </thead>
-    {% for row in rows %}
-      <tr>
-          <td>{{ row.crew }}</td>
-          <td>{{ row.role }}</td>
-          <td>{{ row.flight }}</td>
-          <td>{{ row.destination }}</td>
-          <td>{{ row.departure }}</td>
-          <td>{{ row.arrival }}</td>
-      </tr>
-    {% endfor %}
-  </table>
+  <div class="content-container">
+    <div class="left-container">
+      <form method="get">
+        {{ form.as_p }}
+        <div class="button-container">
+          <button type="submit">Filter</button>
+          <a href="crew/../">Reset</a>
+        </div>
+      </form>
+
+      <br>Filters: <br>
+      <div class="filter-container">
+        <a href="{% url 'crew_assignments' %}">All Assignments</a>
+        <a href="{% url 'crew_assignments_filtered' filter_type='Past Day' %}">The Past Day</a>
+        <a href="{% url 'crew_assignments_filtered' filter_type='Past Week' %}">The Past Week</a>
+        <a href="{% url 'crew_assignments_filtered' filter_type='Past Month' %}">The Past Month</a>
+        <a href="{% url 'crew_assignments_filtered' filter_type='Past Year' %}">The Past Year</a>
+      </div>
+      <br>
+    </div>
+
+    <div class="right-container">
+      <table>
+        <thead>
+          {% for name in headers %}
+            <td>{{ name }}</td>
+          {% endfor %}
+        </thead>
+        {% for row in rows %}
+          <tr>
+              <td>{{ row.crew }}</td>
+              <td>{{ row.role }}</td>
+              <td>{{ row.flight }}</td>
+              <td>{{ row.destination }}</td>
+              <td>{{ row.departure }}</td>
+              <td>{{ row.arrival }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
 {% endblock %}
