@@ -174,7 +174,8 @@ table {
 }
 thead {
     width: fit-content;
-    font-weight: bold;
+    background-color: #262A56;
+    color: white;
 }
 td {
     text-align: center;
