@@ -41,14 +41,14 @@
             </ul>
             <br>
 
-            Or Search a Specific Passenger's Travel History:
+            Or search for a specific passenger's travel history:
             <form method="get" action="{% url 'booking_list' %}">
                 {% csrf_token %}
                 {{ formID.as_p }}
                 <button type="submit">Search</button>
             </form>
 
-            <br>Or Generate Reports: 
+            <br>Or generate reports: 
             <a href="{% url 'booking_report' %}" class:"report">Check Reports</a>
         </div>
     </center>
