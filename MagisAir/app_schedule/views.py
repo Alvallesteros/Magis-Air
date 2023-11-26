@@ -18,12 +18,11 @@ class ScheduledFlights(View):
 
         if form.is_valid() and form.cleaned_data['filter_date']:
             filter_date = form.cleaned_data['filter_date']
-            print(filter_date)
-            label = 'Departures on ' + filter_date.strftime("%B %d, %Y")
+            label += ' on ' + filter_date.strftime("%B %d, %Y")
 
         if form.is_valid() and form.cleaned_data['filter_dest']:
-            filter_dest = form.cleaned_data['filter_dest']
-            print(filter_dest)
+            filter_dest = form.cleaned_data['filter_dest'].title()
+            label += ' for ' + filter_dest
 
         raw_query = '''
             SELECT bf.flight_code, r.origin, r.destination, sf.departure_time AS "departure", sf.arrival_time AS "arrival", sf.duration
