@@ -4,7 +4,7 @@
 body {
     background-color: #fdfaf7;
     margin: 0px;
-}
+} 
 .header {
     overflow: hidden;
     padding: 20px 10px;
@@ -32,6 +32,7 @@ body {
 .header a.active {
     color: #afcaff;
     pointer-events: none;
+    
 }
 .header-left {
     margin-top: 13px;
@@ -43,62 +44,6 @@ body {
 .header-right {
     float: right;
 }
-
-table, .table-header {
-button {
-    background-color: #333;
-    color: white;
-    border-radius: 5px;
-    margin-top: 10px;
-    width: 70px;
-}
-button:hover {
-    pointer-events: auto;
-}
-/* booking list */
-.input-container {
-    display: flex;
-    text-align: center;
-    justify-content: center; 
-    align-items: center; 
-    flex-direction: column;
-    z-index: 1;
-    max-width: 520px;
-    max-height: 600px;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-    outline: 0;
-    width: 100%;
-    border: 0;
-    margin: 0 auto;
-    padding: 30px;
-    box-sizing: border-box;
-}
-.input-container a {
-    text-transform: uppercase;
-    font-weight: 500;
-    font-size: 13px;
-    width: 115px;
-    display: block; 
-    margin: 0 auto;
-    padding: 5px;
-}
-.input-container a:hover {
-    background-color: rgba(196, 193, 189, 0.248);
-}
-.booking-container {
-    width: auto;
-    margin: 0 auto;
-    border: 1px solid #262A56;
-    background-color: #9c9c9c70;    
-}
-.booking-container a {
-    color: black;
-    text-decoration: none;
-}
-.booking-container a:hover {
-    font-weight: bold;
-}
-/* booking report */
 .content-container {
     display: flex;
     flex-direction: row;
@@ -119,7 +64,7 @@ button:hover {
     flex-direction: column;
     z-index: 1;
     max-width: 300px;
-    max-height: 600px;
+    max-height: 500px;
     padding: 30px;
     box-sizing: border-box;
     background-color: rgba(205, 205, 205, 0.415);
@@ -168,29 +113,6 @@ button:hover {
     padding: 5px;
     width: auto;
 }
-.filter-container a:hover,
-.back-button:hover {
-    font-weight: bold;
-}
-.back-button {
-    text-decoration: none;
-    color: black;
-}
-.right-container {
-    max-width: 60%;
-}
-table {
-    width: 70%;
-    margin: 0 auto;
-    border: 2px solid black;
-}
-thead, .table-header {
-thead {
-    width: fit-content;
-    background-color: #262A56;
-    color: white;
-}
-td, .table-header {
 .filter-container a:hover {
     font-weight: bold;
 }
@@ -211,20 +133,3 @@ td {
     padding: 10px;
     border: 1px solid #333;
 }
-/* travel history */
-.travel-container {
-    padding: 50px;
-}
-.travel-container a {
-    text-decoration: none;
-    color: black;
-}
-.travel-container a:hover {
-    font-weight: bold;
-}
-/* booking */
-.passenger-container {
-    padding-left: 15%;
-    font-size: large;
-}
-
