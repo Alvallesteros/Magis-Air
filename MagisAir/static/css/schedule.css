@@ -52,6 +52,7 @@ thead {
     width: fit-content;
     background-color: #262A56;
     color: white;
+    font-weight: bold;
 }
 td {
     text-align: center;
@@ -63,23 +64,13 @@ td {
     gap: 10px;
     justify-content: center;
 }
-.button-container button {
-    background-color: #333;
-    color: white;
-    border-radius: 5px;
-    text-align: center;
-    justify-content: center;
-    margin-top: 10px;
-    width: 50px;
-    font-size: 15px;
-}
+.button-container button, 
 .button-container a {
-    text-decoration: none; 
+    text-decoration: none;
     background-color: #333;
     color: white;
     border-radius: 5px;
-    text-align: center;
-    justify-content: center;
     margin-top: 10px;
-    width: 50px;
+    width: 70px;
+    cursor: pointer;
 }

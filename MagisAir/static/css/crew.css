@@ -75,27 +75,9 @@ body {
     gap: 10px;
     justify-content: center;
 }
-.button-container button {
-    background-color: #333;
-    color: white;
-    border-radius: 5px;
-    margin-top: 10px;
-    width: 70px;
-    cursor: pointer;
-
-}
+.button-container button, 
 .button-container a {
     text-decoration: none;
-    background-color: #333;
-    color: white;
-    border-radius: 5px;
-    margin-top: 10px;
-    padding-top: 1px;
-    padding-bottom: 1px;
-    padding-left: 6px;
-    padding-right: 6px;
-    width: 60px;
-    font-size: 14px;
     background-color: #333;
     color: white;
     border-radius: 5px;
@@ -132,6 +114,7 @@ table {
 thead {
     background-color: #262A56;
     color: white;
+    font-weight: bold;
 }
 td {
     text-align: center;
