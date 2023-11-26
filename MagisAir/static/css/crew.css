@@ -96,6 +96,12 @@ body {
     padding-right: 6px;
     width: 60px;
     font-size: 14px;
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+    width: 70px;
+    cursor: pointer;
 }
 .filter-container {
     display: flex;
