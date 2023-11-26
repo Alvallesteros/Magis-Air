@@ -43,8 +43,6 @@ body {
 .header-right {
     float: right;
 }
-
-table, .table-header {
 button {
     background-color: #333;
     color: white;
@@ -174,13 +172,11 @@ table {
     margin: 0 auto;
     border: 2px solid black;
 }
-thead, .table-header {
 thead {
     width: fit-content;
     background-color: #262A56;
     color: white;
 }
-td, .table-header {
 td {
     text-align: center;
     padding: 10px;
@@ -202,5 +198,3 @@ td {
     padding-left: 15%;
     font-size: large;
 }
-
-

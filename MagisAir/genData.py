@@ -123,24 +123,24 @@ if __name__ == "__main__":
     #Adjust as you want
     num_routes = 10
     num_base_flights = 20
-    num_scheduled_flights = 30
+    num_scheduled_flights = 250
     num_crew_member = 40
     num_crew_assignment = 50
     num_passenger = 60
     num_item = 70
     num_booking = 100
-    num_ticket = 150
+    num_ticket = 200
     num_bookingitem = 200
 
     #Uncomment the following and run the script to generate data      
-    generate_routes(num_routes)
-    generate_base_flights(num_base_flights)
-    generate_scheduled_flights(num_scheduled_flights)
-    generate_crew_member(num_crew_member)
-    generate_crew_assignment(num_crew_assignment)
-    generate_passenger(num_passenger)
-    generate_item(num_item)
-    generate_booking(num_booking)
+    #generate_routes(num_routes)
+    #generate_base_flights(num_base_flights)
+    #generate_scheduled_flights(num_scheduled_flights)
+    #generate_crew_member(num_crew_member)
+    #generate_crew_assignment(num_crew_assignment)
+    #generate_passenger(num_passenger)
+    #generate_item(num_item)
+    #generate_booking(num_booking)
     generate_ticket(num_ticket)
-    generate_booking_item(num_bookingitem)
+    #generate_booking_item(num_bookingitem)
     
