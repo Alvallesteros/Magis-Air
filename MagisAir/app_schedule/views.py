@@ -1,5 +1,4 @@
-from datetime import date
-
+from datetime import datetime
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.db import connection
@@ -13,11 +12,14 @@ class ScheduledFlights(View):
 
     def get(self, request, *args, **kwargs):
         form = DateFilterForm(request.GET)
-
-        filter_date = date.today()
+        label = 'Departures'
+        filter_date = None
 
         if form.is_valid() and form.cleaned_data['filter_date']:
                 filter_date = form.cleaned_data['filter_date']
+                print(filter_date)
+                label = 'Departures on ' + filter_date.strftime("%B %d, %Y")
+
 
         raw_query='''
             SELECT bf.flight_code, r.origin, r.destination, sf.departure_time AS "departure", sf.arrival_time AS "arrival", sf.duration
@@ -29,7 +31,10 @@ class ScheduledFlights(View):
 
         with connection.cursor() as cursor:                             #SOURCE: https://docs.djangoproject.com/en/4.2/topics/db/sql/
                              
-            cursor.execute(raw_query.format(_where='WHERE sf.departure_date = %s'), [filter_date])
+            if filter_date:
+                cursor.execute(raw_query.format(_where='WHERE sf.departure_date = %s'), [filter_date])
+            else:
+                 cursor.execute(raw_query.format(_where=''))
 
             columns = [col[0] for col in cursor.description]
             results = [dict(zip(columns, row)) for row in cursor.fetchall()]
@@ -42,7 +47,7 @@ class ScheduledFlights(View):
         context = { 'flights': results,
                     'column_names': formatted_columns,
                     'form': form,
-                    'filter_date': filter_date
+                    'label': label
                     }
 
         return render(request, self.template_name, context)
