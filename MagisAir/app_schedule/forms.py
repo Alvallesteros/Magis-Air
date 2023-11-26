@@ -5,5 +5,6 @@ class DateFilterForm(forms.Form):
     filter_date = forms.DateField(
         label='Filter by Date',
         required=False,
-        widget=forms.DateInput(attrs={'type': 'date', 'required': 'True'}),
+        widget=forms.DateInput(attrs={'type': 'date'}),
     )
+    filter_dest = forms.CharField(label='Filter by Destination', required=False)
