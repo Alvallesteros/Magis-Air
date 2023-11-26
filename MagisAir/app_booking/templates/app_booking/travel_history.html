@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
 {% block title %}Travel History - MagisAir{% endblock %}
+{% block styles %}
+  {% load static %}
+  {% static 'css/travel_history.css' %}
+{% endblock %}
 
 {% block header %} 
     <div class="header">
@@ -17,7 +21,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class=travel-container>
+    <div class="travel-container">
         <center>
             <h1>Travel History</h1>
             <h3>{{ history.0.last_name }}, {{ history.0.first_name }} {{ history.0.middle_initial }}.</h3>

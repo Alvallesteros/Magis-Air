@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
 {% block title %}Booking List - MagisAir{% endblock %}
+{% block styles %}
+  {% load static %}
+  {% static 'css/booking_list.css' %}
+{% endblock %}
 
 {% block header %} 
     <div class="header">
