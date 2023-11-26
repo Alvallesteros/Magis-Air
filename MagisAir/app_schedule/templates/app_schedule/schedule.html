@@ -1,17 +1,39 @@
 {% extends 'base.html' %}
 
 {% block title %}Scheduled Flights - MagisAir{% endblock %}
+{% block styles %}
+  {% load static %}
+  {% static '/css/schedule.css' %}
+{% endblock%}
+
+{% block header %} 
+  <div class="header">
+    <div class="header-left">
+      Magis Air
+    </div>
+    <div class="header-right">
+      <a href="booking/">Booking</a>
+      <a href="crew/">Crew</a>
+      <a href="routes/">Routes</a>
+      <a class="active" href="">Schedule</a>
+    </div>
+  </div>
+{% endblock %}
 
 {% block content %}
-  <h2>Schedule Flights</h2>
+  <center>
+    <h1>Scheduled Flights</h1>
 
-  <form method="get">
-    {{ form.as_p }}
-    <button type="submit">Filter</button>
-  </form>
-
-  <h4>Departures on {{ filter_date|date:"F j, Y" }}</h4>
-
+    <form method="get">
+      {{ form.as_p }}
+      <div class="button-container">
+        <button type="submit">Filter</button>
+        <a href="../" class="button">Reset</a>
+      </div>
+    </form>
+    <h4>Departures on {{ filter_date|date:"F j, Y" }}</h4>
+  </center>
+  
   <table>
     <thead>
       {% for name in column_names %}

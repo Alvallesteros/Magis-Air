@@ -124,6 +124,19 @@ button:hover {
     box-sizing: border-box;
     background-color: rgba(205, 205, 205, 0.415);
     border-radius: 5px;
+table {
+    margin: 0 auto;
+    border: 2px solid black;
+}
+thead {
+    width: fit-content;
+    background-color: #262A56;
+    color: white;
+}
+td {
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #333;
 }
 .button-container {
     display: flex;
@@ -227,4 +240,13 @@ td {
     padding-left: 15%;
     font-size: large;
 }
-
+.button-container a {
+    text-decoration: none; 
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    justify-content: center;
+    margin-top: 10px;
+    width: 50px;
+}
