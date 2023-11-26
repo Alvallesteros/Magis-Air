@@ -10,6 +10,4 @@ class DateRangeForm(forms.Form):
 
 class IdSearchForm(forms.Form):
     passenger_id = forms.CharField(label='Passenger ID', max_length=255, required=False, widget=forms.TextInput(attrs={'required' : 'True'}))
-    first_name = forms.CharField(max_length=255, required=True)
-    last_name = forms.CharField(max_length=255, required=True) 
 
