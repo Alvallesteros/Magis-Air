@@ -27,6 +27,7 @@ class ScheduledFlights(View):
                     JOIN app_routes_BaseFlight AS bf ON sf.base_flight_id=bf.id
                     JOIN app_routes_Route AS r ON bf.route_id=r.route_id
                     {_where}
+                    ORDER BY bf.flight_code
                     '''
 
         with connection.cursor() as cursor:                             #SOURCE: https://docs.djangoproject.com/en/4.2/topics/db/sql/
