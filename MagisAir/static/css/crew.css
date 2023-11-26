@@ -81,9 +81,8 @@ body {
     border-radius: 5px;
     margin-top: 10px;
     width: 70px;
-}
-.button-container button:hover {
-    pointer-events: auto;
+    cursor: pointer;
+
 }
 .button-container a {
     text-decoration: none;
