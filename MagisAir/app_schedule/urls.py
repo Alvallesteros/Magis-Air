@@ -1,6 +1,6 @@
 from django.urls import path
-from app_schedule.views import *
+from app_schedule.views import ScheduledFlights
 
 urlpatterns = [
-    path('', index, name='index'),
+    path('', ScheduledFlights.as_view(), name='schedule-flight'),
 ]
