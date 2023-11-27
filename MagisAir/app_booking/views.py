@@ -26,7 +26,7 @@ class BookingView(View):
             WHERE b.booking_id = %s
         '''
         item_query = '''
-            SELECT (i.item_name || ' ('|| i.description ||')') AS description, bi.item_quantity AS quantity, bi.booking_item_cost AS cost
+            SELECT i.description AS description, bi.item_quantity AS quantity, bi.booking_item_cost AS cost
             FROM app_booking_BookingItem bi
             JOIN app_booking_Item i ON bi.item_id = i.item_id
             WHERE bi.booking_id = %s

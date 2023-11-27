@@ -9,8 +9,8 @@ class PassengerAdmin(admin.ModelAdmin):
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('item_id', 'item_name', 'description', 'item_cost')
-    search_fields = ('item_name', 'description')
+    list_display = ('item_id', 'description', 'item_cost')
+    search_fields =['description']
 
 @admin.register(Booking)
 class BookingAdmin(admin.ModelAdmin):

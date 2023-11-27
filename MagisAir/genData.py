@@ -80,7 +80,6 @@ def generate_passenger(num_passenger):
 def generate_item(num_item):
     for _ in range(num_item):
         item = Item(
-            item_name = random.choice(["Terminal Fees", "Travel Insurance", f"Additional Baggage Charge ({random.randint(1,10)} kg)"]),
             description = fake.sentence(),
             item_cost = random.uniform(50, 500)
         )
