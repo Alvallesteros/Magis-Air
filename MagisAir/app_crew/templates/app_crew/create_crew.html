@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Crew Schedules - MagisAir{% endblock %}
+{% block styles %}
+{% load static %}
+  {% static 'css/crew.css' %}
+{% endblock %}
+
+{% block header %} 
+  <div class="header">
+    <div class="header-left">
+      Magis Air
+    </div>
+    <div class="header-right">
+      <a href="../../booking/">Booking</a>
+      <a class="active" href="">Crew</a>
+      <a href="../../routes/">Routes</a>
+      <a href="../../">Schedule</a>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <center>
+    <h1>Create Crew Member</h1>
+    <form action="" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Submit">
+    </form>
+  </center>
+{% endblock %}

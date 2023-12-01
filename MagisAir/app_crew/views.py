@@ -1,8 +1,11 @@
-from django.http import HttpResponse
+from django.urls import reverse
+from django.views.generic.edit import CreateView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render
 from django.db import connection 
 from django.views import View 
 from .forms import DateFilterForm
+from .models import CrewMember, CrewAssignment
 from datetime import *
 
 # Create your views here.
@@ -80,3 +83,21 @@ class CrewAssignments(View):
 
         where = "WHERE sf.departure_date BETWEEN %s AND %s"
         return params, where
+
+class CreateCrewView(CreateView, SuccessMessageMixin):
+    model = CrewMember
+    template_name = "app_crew/create_crew.html"
+    fields = ["last_name", "first_name", "middle_initial"]
+    success_message = "Created crew member!"
+
+    def get_success_url(self):
+        return reverse('crew_assignments')
+
+class CreateAssignmentView(CreateView, SuccessMessageMixin):
+    model = CrewAssignment
+    template_name = "app_crew/create_assignment.html"
+    fields = ["scheduled_flight", "crew_member", "role"]
+    success_message = "Created crew assignment!"
+
+    def get_success_url(self):
+        return reverse('crew_assignments')
