@@ -25,7 +25,7 @@ class ScheduledFlights(View):
             label += ' for ' + filter_dest
 
         raw_query = '''
-            SELECT bf.flight_code, r.origin, r.destination, sf.departure_time AS "departure", sf.arrival_time AS "arrival", sf.duration
+            SELECT bf.flight_code, r.origin, r.destination, sf.departure_date, sf.departure_time AS "departure", sf.arrival_time AS "arrival", sf.duration
                     FROM app_schedule_ScheduledFlight AS sf
                     JOIN app_routes_BaseFlight AS bf ON sf.base_flight_id=bf.id
                     JOIN app_routes_Route AS r ON bf.route_id=r.route_id
@@ -60,6 +60,7 @@ class ScheduledFlights(View):
 
             for r in results:
                 r['duration'] = self.format_duration(r['duration'])
+                r['departure_date'] = r['departure_date'].strftime("%B %d, %Y")
 
         context = {
             'flights': results,
