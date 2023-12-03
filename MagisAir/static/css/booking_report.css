@@ -43,16 +43,6 @@ body {
 .header-right {
     float: right;
 }
-button {
-    background-color: #333;
-    color: white;
-    border-radius: 5px;
-    margin-top: 10px;
-    width: 70px;
-}
-button:hover {
-    pointer-events: auto;
-}
 /* booking report */
 .content-container {
     display: flex;
@@ -85,18 +75,15 @@ button:hover {
     gap: 10px;
     justify-content: center;
 }
-.button-container a {
+.button-container button, 
+.button-container a  {
     text-decoration: none;
     background-color: #333;
     color: white;
     border-radius: 5px;
     margin-top: 10px;
-    padding-top: 1px;
-    padding-bottom: 1px;
-    padding-left: 6px;
-    padding-right: 6px;
-    width: 60px;
-    font-size: 14px;
+    width: 70px;
+    cursor: pointer;
 }
 .filter-container {
     display: flex;

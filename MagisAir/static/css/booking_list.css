@@ -79,6 +79,7 @@ button:hover {
     display: block; 
     margin: 0 auto;
     padding: 5px;
+    color: #262A56;
 }
 .input-container a:hover {
     background-color: rgba(196, 193, 189, 0.248);
