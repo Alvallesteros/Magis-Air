@@ -38,7 +38,7 @@ def generate_scheduled_flights(num_scheduled_flights):
     base_flight_ids = list(BaseFlight.objects.values_list('id', flat=True))
     for _ in range(num_scheduled_flights):
         scheduled_flight = ScheduledFlight(
-            departure_date=fake.date_between(start_date='+10d', end_date='+90d'),
+            departure_date=fake.date_between(start_date='-90d', end_date='+1d'),
             departure_time=datetime.strptime(fake.time(), '%H:%M:%S').time(),
             duration=f"{random.randint(1, 5)}:{random.randint(0, 59)}",
             flight_cost=random.uniform(1000, 10000),
@@ -90,7 +90,7 @@ def generate_booking(num_booking):
     for _ in range(num_booking):
         booking = Booking(
             passenger_id = random.choice(passengers_id),
-            booking_date=fake.date_between(start_date='-90d', end_date='-10d'),
+            booking_date=fake.date_between(start_date='-90d', end_date='+1d'),
             booking_time=datetime.strptime(fake.time(), '%H:%M:%S').time(),
         )
         booking.save()
@@ -132,14 +132,14 @@ if __name__ == "__main__":
     num_bookingitem = 200
 
     #Uncomment the following and run the script to generate data      
-    #generate_routes(num_routes)
-    #generate_base_flights(num_base_flights)
-    #generate_scheduled_flights(num_scheduled_flights)
-    #generate_crew_member(num_crew_member)
-    #generate_crew_assignment(num_crew_assignment)
-    #generate_passenger(num_passenger)
-    #generate_item(num_item)
-    #generate_booking(num_booking)
+    generate_routes(num_routes)
+    generate_base_flights(num_base_flights)
+    generate_scheduled_flights(num_scheduled_flights)
+    generate_crew_member(num_crew_member)
+    generate_crew_assignment(num_crew_assignment)
+    generate_passenger(num_passenger)
+    generate_item(num_item)
+    generate_booking(num_booking)
     generate_ticket(num_ticket)
-    #generate_booking_item(num_bookingitem)
+    generate_booking_item(num_bookingitem)
     
