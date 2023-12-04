@@ -31,7 +31,7 @@ def create_route(request):
 class CreateBaseFlightView(CreateView):
     model = BaseFlight
     template_name = 'app_routes/create_base_flight.html'
-    fields = ["flight_code", "flight_type", "route"]
+    fields = ["flight_type", "route"]
 
     def get_success_url(self):
         return reverse('index')
