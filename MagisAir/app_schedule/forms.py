@@ -3,7 +3,7 @@ from django import forms
 
 class DateFilterForm(forms.Form):
     filter_date = forms.DateField(
-        label='Filter by Date',
+        label='Filter by Departure Date',
         required=False,
         widget=forms.DateInput(attrs={'type': 'date'}),
     )
