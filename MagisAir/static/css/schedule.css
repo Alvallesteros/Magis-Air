@@ -64,7 +64,8 @@ td {
     gap: 10px;
     justify-content: center;
 }
-.button-container button {
+.button-container button,
+.button-container a {
     text-decoration: none;
     background-color: #333;
     color: white;
